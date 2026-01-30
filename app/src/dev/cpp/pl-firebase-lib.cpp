@@ -6,7 +6,7 @@
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_app_nezawarriors_learningmath_environment_LMEnvironment_getFirebaseConfig(JNIEnv *env,jobject thiz) {
+Java_app_luichigo15_pairly_environment_PLEnvironment_getFirebaseConfig(JNIEnv *env,jobject thiz) {
     std::string config = FIREBASE_CONFIG;
     return env->NewStringUTF(config.c_str());
 }
