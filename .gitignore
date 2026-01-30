@@ -1,0 +1,65 @@
+# OS file control
+**desktop.ini
+**.DS_Store
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+## Generated files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.ap_
+*.apk
+*.aab
+*.dex
+*.o
+*.smali
+*.aar
+*.libs
+*.gen
+*.out
+*.symbols
+*.proguard
+*.mapping
+
+build/
+
+## Android Studio
+*.iml
+*.ipr
+*.iws
+*.idea
+*.local.properties
+*.keystore
+*.jks
+
+## Build files
+*.build
+*.intermediates
+*.signing
+
+## Temporary files
+*~
+*.swp
+
+/build
+/captures
+.gradle/
+.externalNativeBuild/
+.cxx/
+local.properties
+output.json
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+*.hprof
+.kotlin/
