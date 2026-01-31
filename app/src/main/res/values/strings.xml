@@ -1,3 +1,8 @@
 <resources>
     <string name="pl_app_name">PairlyLove</string>
+
+<!--  Role  -->
+    <string name="pl_role_title">Who are you?</string>
+    <string name="pl_boy_role">Boyfriend</string>
+    <string name="pl_girl_role">Girlfriend</string>
 </resources>
