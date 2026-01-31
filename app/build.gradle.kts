@@ -144,6 +144,7 @@ dependencies {
 
     //Other
     implementation(libs.coil)
+    implementation(libs.lottie)
 
     //Test
     testImplementation(libs.junit)
