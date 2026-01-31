@@ -104,6 +104,7 @@ dependencies {
     //AndroidBase
     implementation(libs.androidx.core)
     implementation(libs.activity.compose)
+    implementation(libs.constraintlayout)
     implementation(libs.lifecycle.compose)
     implementation(libs.lifecycle.runtime)
     implementation(libs.adaptive.navigation)
