@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import app.luichigo15.pairly.common.PLPrefsConst
-import app.luichigo15.pairly.di.domain.preferences.PLPreferences
+import app.luichigo15.pairly.preferences.PLPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

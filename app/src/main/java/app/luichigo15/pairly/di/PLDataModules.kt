@@ -2,10 +2,11 @@ package app.luichigo15.pairly.di
 
 import android.content.Context
 import app.luichigo15.pairly.data.preferences.PLPreferencesImpl
-import app.luichigo15.pairly.di.domain.preferences.PLPreferences
+import app.luichigo15.pairly.preferences.PLPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -17,7 +18,7 @@ object PLDatabaseModule {
 @InstallIn(SingletonComponent::class)
 object PLUtilsModule {
     @Provides
-    fun providesPreferences(context: Context): PLPreferences = PLPreferencesImpl(context)
+    fun providesPreferences(@ApplicationContext context: Context): PLPreferences = PLPreferencesImpl(context)
 }
 
 @Module

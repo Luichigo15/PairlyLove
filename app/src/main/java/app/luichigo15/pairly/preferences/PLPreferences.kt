@@ -1,4 +1,4 @@
-package app.luichigo15.pairly.di.domain.preferences
+package app.luichigo15.pairly.preferences
 
 import kotlinx.coroutines.flow.Flow
 
