@@ -1,5 +1,8 @@
 package app.luichigo15.pairly.ui.role.widget
 
+import android.content.ClipData
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -18,17 +21,31 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.Clipboard
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.luichigo15.pairly.R
 import app.luichigo15.pairly.ui.theme.PLTheme
+import kotlinx.coroutines.launch
+
+private suspend fun copyToClipboard(text: String, clipboard: Clipboard, context: Context) {
+    val clipData = ClipData.newPlainText("code", text)
+    val clipEntry = ClipEntry(clipData)
+    clipboard.setClipEntry(clipEntry)
+    Toast.makeText(context, context.getString(R.string.pl_copied_code), Toast.LENGTH_SHORT).show()
+}
+
 
 @Composable
 fun PLCopyCode(
@@ -36,6 +53,10 @@ fun PLCopyCode(
     code: String,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+    val clipboard = LocalClipboard.current
+    val coroutineScope = rememberCoroutineScope()
+
     val borderColor = MaterialTheme.colorScheme.onBackground
     AnimatedVisibility(
         visible = isVisible,
@@ -77,7 +98,11 @@ fun PLCopyCode(
                 )
             }
             Button(
-                onClick = {},
+                onClick = {
+                    coroutineScope.launch {
+                        copyToClipboard(code, clipboard, context)
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.onSecondary,
                     contentColor = MaterialTheme.colorScheme.secondary

@@ -7,4 +7,5 @@
     <string name="pl_girl_role">Girlfriend</string>
     <string name="pl_your_code">Your code:</string>
     <string name="pl_copy">Copy</string>
+    <string name="pl_copied_code">Copied code!</string>
 </resources>
