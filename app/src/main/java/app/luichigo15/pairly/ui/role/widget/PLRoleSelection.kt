@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import app.luichigo15.pairly.R
+import app.luichigo15.pairly.common.PLRoleConst
 
 private var enterAnimation = expandHorizontally(
     tween(durationMillis = 800, delayMillis = 500),
@@ -47,7 +48,7 @@ fun PLRoleSelection(
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
                     .aspectRatio(1f),
-                onClick = { onRoleSelected(R.string.pl_boy_role) }
+                onClick = { onRoleSelected(PLRoleConst.BOY_ROLE) }
             )
             PLRoleCard(
                 roleName = R.string.pl_girl_role,
@@ -55,7 +56,7 @@ fun PLRoleSelection(
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
                     .aspectRatio(1f),
-                onClick = { onRoleSelected(R.string.pl_girl_role) }
+                onClick = { onRoleSelected(PLRoleConst.GIRL_ROLE) }
             )
         }
     }
@@ -69,7 +70,11 @@ private var roleExitAnimation =
     slideOutVertically(tween(800), targetOffsetY = { it })+ fadeOut(tween(1800))
 
 @Composable
-fun PLRoleSelected(isVisible: Boolean, onClickListener: () -> Unit, modifier: Modifier = Modifier) {
+fun PLRoleSelected(isVisible: Boolean, selectedRole: Int, modifier: Modifier = Modifier) {
+    val (lottie, title) = if (selectedRole == PLRoleConst.BOY_ROLE)
+        Pair(R.raw.boy, R.string.pl_boy_role)
+    else Pair(R.raw.girl, R.string.pl_girl_role)
+
     AnimatedVisibility(
         visible = isVisible,
         modifier = modifier, enter = roleEnterAnimation,
@@ -79,9 +84,8 @@ fun PLRoleSelected(isVisible: Boolean, onClickListener: () -> Unit, modifier: Mo
             modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .aspectRatio(1f),
-            roleName = R.string.pl_boy_role,
-            lottie = R.raw.boy,
-            onClick = onClickListener
+            roleName = title,
+            lottie = lottie
         )
     }
 }
