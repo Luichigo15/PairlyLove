@@ -1,6 +1,10 @@
 <resources>
     <string name="pl_app_name">PairlyLove</string>
 
+    <!-- Common   -->
+    <string name="pl_continue">Continue</string>
+    <string name="pl_try_again">Try again later</string>
+
 <!--  Role  -->
     <string name="pl_role_title">Who are you?</string>
     <string name="pl_boy_role">Boyfriend</string>
@@ -8,6 +12,5 @@
     <string name="pl_your_code">Your code:</string>
     <string name="pl_copy">Copy</string>
     <string name="pl_copied_code">Copied code!</string>
-    <string name="pl_continue">Continue</string>
-    <string name="pl_try_again">Try again later</string>
+    <string name="pl_linked">Now you are linked to your partner!</string>
 </resources>

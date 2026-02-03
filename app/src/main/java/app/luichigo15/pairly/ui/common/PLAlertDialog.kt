@@ -22,14 +22,14 @@ fun PLAlertDialog(
     @StringRes message: Int,
     isSuccess: Boolean = true,
 ) {
-    val (lottieRaw, type) = if (isSuccess)
-        Pair(
-            R.raw.heart, L15AlertDialogType.Success
-        ) else Pair(R.raw.sad_heart, L15AlertDialogType.Error)
+    val (lottieRaw, type, title) = if (isSuccess)
+        Triple(R.raw.heart, L15AlertDialogType.Success, L15R.string.l15_success_label)
+    else
+        Triple(R.raw.sad_heart, L15AlertDialogType.Error, L15R.string.l15_error_label)
     val lottie by rememberLottieComposition(LottieCompositionSpec.RawRes(lottieRaw))
     val dialogConfig = L15AlertDialogConfig(
         onDismiss = onDismiss,
-        title = L15R.string.l15_error_label,
+        title = title,
         message = message, isCancelable = false, type = type
     )
 

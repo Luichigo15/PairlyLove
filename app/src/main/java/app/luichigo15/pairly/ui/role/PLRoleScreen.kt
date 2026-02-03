@@ -25,8 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.luichigo15.common.ui.common.L15StateHandler
 import app.luichigo15.pairly.R
 import app.luichigo15.pairly.common.PLRoleConst
+import app.luichigo15.pairly.ui.common.PLAlertDialog
+import app.luichigo15.pairly.ui.common.PLLoadingDialog
 import app.luichigo15.pairly.ui.role.model.PLRoleEvent
 import app.luichigo15.pairly.ui.role.widget.PLCopyCodeField
 import app.luichigo15.pairly.ui.role.widget.PLEnterCodeField
@@ -40,10 +43,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PLRoleScreen(
+    onNavigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
     roleViewModel: PLRoleViewModel = hiltViewModel()
 ) {
     val roleData by roleViewModel.roleData.collectAsStateWithLifecycle()
+    val uiState by roleViewModel.uiState.collectAsStateWithLifecycle()
     val enterCodeState = rememberTextFieldState()
     var showSelection by remember { mutableStateOf(false) }
     val titlePadding by animateDpAsState(
@@ -146,15 +151,25 @@ fun PLRoleScreen(
                 }
                 .padding(20.dp),
             onClick = {
-
+                roleViewModel.onRoleEvent(PLRoleEvent.Submit)
             })
     }
+
+    L15StateHandler(state = uiState, onSuccess = {
+        PLAlertDialog(onDismiss = onNavigateToHome, message = R.string.pl_linked)
+    }, onError = {
+        PLAlertDialog(onDismiss = {
+            roleViewModel.onRoleEvent(PLRoleEvent.ResetState)
+        }, message = R.string.pl_try_again, isSuccess = false)
+    }, onLoading = {
+        PLLoadingDialog()
+    })
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun PLRoleScreenPreview() {
     PLTheme(darkTheme = true) {
-        PLRoleScreen()
+        PLRoleScreen({})
     }
 }

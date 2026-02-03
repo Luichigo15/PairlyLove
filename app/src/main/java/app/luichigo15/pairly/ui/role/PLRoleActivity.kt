@@ -1,9 +1,11 @@
 package app.luichigo15.pairly.ui.role
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import app.luichigo15.pairly.ui.home.PLHomeActivity
 import app.luichigo15.pairly.ui.theme.PLTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +17,11 @@ class PLRoleActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PLTheme {
-                PLRoleScreen()
+                PLRoleScreen(onNavigateToHome = {
+                    val intent = Intent(this, PLHomeActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                })
             }
         }
     }

@@ -32,6 +32,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pairly"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
+        <activity
+            android:name=".ui.home.PLHomeActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pairly"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
     </application>
 
