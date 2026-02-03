@@ -25,7 +25,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.luichigo15.pairly.R
 import app.luichigo15.pairly.common.PLRoleConst
 import app.luichigo15.pairly.ui.role.model.PLRoleEvent
-import app.luichigo15.pairly.ui.role.widget.PLCopyCode
+import app.luichigo15.pairly.ui.role.widget.PLCopyCodeField
+import app.luichigo15.pairly.ui.role.widget.PLEnterCodeField
 import app.luichigo15.pairly.ui.role.widget.PLRoleBackButton
 import app.luichigo15.pairly.ui.role.widget.PLRoleSelected
 import app.luichigo15.pairly.ui.role.widget.PLRoleSelection
@@ -96,9 +97,18 @@ fun PLRoleScreen(
                 end.linkTo(parent.end)
             }, selectedRole = roleData.role
         )
-        PLCopyCode(
+        PLCopyCodeField(
             code = roleData.roleCode,
             isVisible = showSelection && roleData.role == PLRoleConst.BOY_ROLE,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(30.dp)
+                .constrainAs(copyCode) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                })
+        PLEnterCodeField(
+            isVisible = showSelection && roleData.role == PLRoleConst.GIRL_ROLE,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(30.dp)
