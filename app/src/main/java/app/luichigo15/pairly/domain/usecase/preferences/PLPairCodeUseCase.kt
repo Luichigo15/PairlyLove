@@ -1,6 +1,6 @@
 package app.luichigo15.pairly.domain.usecase.preferences
 
-import app.luichigo15.pairly.preferences.PLPreferences
+import app.luichigo15.pairly.domain.preferences.PLPreferences
 import javax.inject.Inject
 
 class PLPairCodeUseCase @Inject constructor(
