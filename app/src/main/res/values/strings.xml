@@ -5,4 +5,6 @@
     <string name="pl_role_title">Who are you?</string>
     <string name="pl_boy_role">Boyfriend</string>
     <string name="pl_girl_role">Girlfriend</string>
+    <string name="pl_your_code">Your code:</string>
+    <string name="pl_copy">Copy</string>
 </resources>

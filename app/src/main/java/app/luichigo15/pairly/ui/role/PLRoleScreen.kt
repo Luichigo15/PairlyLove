@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.MaterialTheme
@@ -22,7 +23,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.luichigo15.pairly.R
+import app.luichigo15.pairly.common.PLRoleConst
 import app.luichigo15.pairly.ui.role.model.PLRoleEvent
+import app.luichigo15.pairly.ui.role.widget.PLCopyCode
 import app.luichigo15.pairly.ui.role.widget.PLRoleBackButton
 import app.luichigo15.pairly.ui.role.widget.PLRoleSelected
 import app.luichigo15.pairly.ui.role.widget.PLRoleSelection
@@ -51,7 +54,7 @@ fun PLRoleScreen(
             .safeContentPadding()
             .padding(15.dp),
     ) {
-        val (rolesRef, titleRef, selectedRef, backBtn) = createRefs()
+        val (rolesRef, titleRef, selectedRef, backBtn, copyCode) = createRefs()
         val guideLine = createGuidelineFromTop(0.5f)
 
         PLRoleBackButton(isVisible = showSelection, modifier = Modifier.constrainAs(backBtn) {
@@ -68,7 +71,8 @@ fun PLRoleScreen(
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                }.padding(top = titlePadding),
+                }
+                .padding(top = titlePadding),
             style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.onBackground)
         PLRoleSelection(
@@ -92,6 +96,16 @@ fun PLRoleScreen(
                 end.linkTo(parent.end)
             }, selectedRole = roleData.role
         )
+        PLCopyCode(
+            code = roleData.roleCode,
+            isVisible = showSelection && roleData.role == PLRoleConst.BOY_ROLE,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(30.dp)
+                .constrainAs(copyCode) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                })
     }
 }
 
