@@ -9,6 +9,9 @@ data class PLRoleData(
     val role: Int = 0,
     val roleCode: String = ""
 ) {
+    val isValid: Boolean
+        get() = role != 0 && roleCode.isNotEmpty()
+
     fun setRole(role: Int) = copy(
         role = role,
         roleCode = if (role == PLRoleConst.BOY_ROLE)

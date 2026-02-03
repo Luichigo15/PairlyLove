@@ -31,6 +31,7 @@ import app.luichigo15.pairly.ui.role.model.PLRoleEvent
 import app.luichigo15.pairly.ui.role.widget.PLCopyCodeField
 import app.luichigo15.pairly.ui.role.widget.PLEnterCodeField
 import app.luichigo15.pairly.ui.role.widget.PLRoleBackButton
+import app.luichigo15.pairly.ui.role.widget.PLRoleContinueButton
 import app.luichigo15.pairly.ui.role.widget.PLRoleSelected
 import app.luichigo15.pairly.ui.role.widget.PLRoleSelection
 import app.luichigo15.pairly.ui.theme.PLTheme
@@ -73,7 +74,7 @@ fun PLRoleScreen(
             .safeContentPadding()
             .padding(15.dp),
     ) {
-        val (rolesRef, titleRef, selectedRef, backBtn, copyCode) = createRefs()
+        val (rolesRef, titleRef, selectedRef, backBtn, copyCode, continueBtn) = createRefs()
         val guideLine = createGuidelineFromTop(0.5f)
 
         PLRoleBackButton(isVisible = showSelection, modifier = Modifier.constrainAs(backBtn) {
@@ -135,6 +136,18 @@ fun PLRoleScreen(
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                 })
+        PLRoleContinueButton(
+            isVisible = showSelection,
+            enabled = roleData.isValid,
+            modifier = Modifier
+                .fillMaxWidth()
+                .constrainAs(continueBtn) {
+                    bottom.linkTo(parent.bottom)
+                }
+                .padding(20.dp),
+            onClick = {
+
+            })
     }
 }
 

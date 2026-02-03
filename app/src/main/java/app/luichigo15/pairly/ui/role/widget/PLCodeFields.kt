@@ -59,10 +59,7 @@ private suspend fun copyToClipboard(text: String, clipboard: Clipboard, context:
 }
 
 private suspend fun pasteFromClipboard(clipboard: Clipboard): String? {
-    return clipboard.getClipEntry()?.clipData?.getItemAt(0)?.text?.let {
-        println(it)
-        it.toString()
-    }
+    return clipboard.getClipEntry()?.clipData?.getItemAt(0)?.text?.toString()
 }
 
 @Composable
