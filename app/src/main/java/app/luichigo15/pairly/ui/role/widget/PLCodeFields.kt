@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
@@ -30,7 +31,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -151,6 +154,8 @@ fun PLCopyCodeField(
 
 @Composable
 fun PLEnterCodeField(
+    state: TextFieldState,
+    onValueChange: (String) -> Unit,
     isVisible: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -169,11 +174,16 @@ fun PLEnterCodeField(
     )
     val clipboard = LocalClipboard.current
     val coroutineScope = rememberCoroutineScope()
-    val codeState = rememberTextFieldState()
+
+    LaunchedEffect(state) {
+        snapshotFlow { state.text }.collect {
+            onValueChange(it.toString())
+        }
+    }
 
     PLCodeBox(isVisible = isVisible, modifier = modifier, content = {
         OutlinedTextField(
-            state = codeState, label = {
+            state = state, label = {
                 Text(stringResource(R.string.pl_your_code))
             }, colors = fieldColors,
             lineLimits = TextFieldLineLimits.SingleLine,
@@ -182,8 +192,8 @@ fun PLEnterCodeField(
                     modifier = Modifier.clickable {
                         coroutineScope.launch {
                             pasteFromClipboard(clipboard)?.let {
-                                codeState.clearText()
-                                codeState.setTextAndPlaceCursorAtEnd(it)
+                                state.clearText()
+                                state.setTextAndPlaceCursorAtEnd(it)
                             }
                         }
                     },
@@ -207,6 +217,6 @@ private fun PLCopyCodeFieldPreview() {
 @Composable
 private fun PLEnterCodeFieldPreview() {
     PLTheme(darkTheme = true) {
-        PLEnterCodeField(true)
+        PLEnterCodeField(rememberTextFieldState(), {}, true)
     }
 }

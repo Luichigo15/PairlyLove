@@ -19,6 +19,7 @@ class PLRoleViewModel @Inject constructor(): ViewModel() {
         when (event) {
             is PLRoleEvent.RoleSelected -> _roleData.update { it.setRole(event.role) }
             PLRoleEvent.ClearRole -> _roleData.update { it.clear() }
+            is PLRoleEvent.CodeChanged -> _roleData.update { it.setCode(event.code) }
         }
     }
 }
