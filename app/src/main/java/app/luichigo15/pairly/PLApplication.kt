@@ -10,7 +10,7 @@ class PLApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-//        PLEnvironment.initializeFirebase(this)
+        PLEnvironment.initializeFirebase(this)
         L15Logger.setEnvironment(PLEnvironment.getEnvironment())
     }
 }
