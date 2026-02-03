@@ -2,7 +2,10 @@ package app.luichigo15.pairly.ui.role.widget
 
 import androidx.annotation.RawRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -25,31 +28,31 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 fun PLRoleCard(
     @StringRes roleName: Int,
     @RawRes lottie: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     val lottie by rememberLottieComposition(LottieCompositionSpec.RawRes(lottie))
 
     ElevatedCard(
-        onClick = {},
+        onClick = onClick,
         modifier = modifier
             .padding(10.dp),
     ) {
-        LottieAnimation(
-            composition = lottie,
-            iterations = LottieConstants.IterateForever,
-            modifier = Modifier
-                .weight(1f)
-                .aspectRatio(1f)
-                .align(Alignment.CenterHorizontally)
-        )
+        Box(modifier = Modifier.fillMaxSize().padding(bottom = 10.dp), contentAlignment = Alignment.BottomCenter) {
+            LottieAnimation(
+                composition = lottie,
+                iterations = LottieConstants.IterateForever,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+            )
 
-        Text(
-            stringResource(roleName),
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(vertical = 10.dp)
-        )
+            Text(
+                stringResource(roleName),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier
+            )
+        }
     }
 }
 
