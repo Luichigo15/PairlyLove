@@ -30,7 +30,7 @@ private var exitAnimation = shrinkHorizontally(
 @Composable
 fun PLRoleSelection(
     isVisible: Boolean,
-    onRoleSelected: (Int) -> Unit,
+    onRoleSelected: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     AnimatedVisibility(
@@ -70,7 +70,7 @@ private var roleExitAnimation =
     slideOutVertically(tween(800), targetOffsetY = { it })+ fadeOut(tween(1800))
 
 @Composable
-fun PLRoleSelected(isVisible: Boolean, selectedRole: Int, modifier: Modifier = Modifier) {
+fun PLRoleSelected(isVisible: Boolean, selectedRole: String, modifier: Modifier = Modifier) {
     val (lottie, title) = if (selectedRole == PLRoleConst.BOY_ROLE)
         Pair(R.raw.boy, R.string.pl_boy_role)
     else Pair(R.raw.girl, R.string.pl_girl_role)

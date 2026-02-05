@@ -1,0 +1,7 @@
+package app.luichigo15.pairly.common
+
+object PLFirebaseConst {
+
+    const val USERS_NODE = "users"
+    const val ROLES_NODE = "roles"
+}

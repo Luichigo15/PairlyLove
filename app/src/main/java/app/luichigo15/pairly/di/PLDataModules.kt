@@ -1,8 +1,15 @@
 package app.luichigo15.pairly.di
 
 import android.content.Context
+import app.luichigo15.pairly.data.firebase.PLFirestoreImpl
+import app.luichigo15.pairly.data.firebase.PLPushNotificationsImpl
 import app.luichigo15.pairly.data.preferences.PLPreferencesImpl
+import app.luichigo15.pairly.data.repository.PLUserRepositoryImpl
+import app.luichigo15.pairly.domain.firebase.PLFirestore
+import app.luichigo15.pairly.domain.firebase.PLPushNotifications
 import app.luichigo15.pairly.domain.preferences.PLPreferences
+import app.luichigo15.pairly.domain.repository.PLUserRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,9 +31,16 @@ object PLUtilsModule {
 @Module
 @InstallIn(SingletonComponent::class)
 interface PLFirebaseModule {
+    @Binds
+    fun providesFirestore(firestoreImpl: PLFirestoreImpl): PLFirestore
+
+    @Binds
+    fun providesPushNotifications(pushNotifications: PLPushNotificationsImpl): PLPushNotifications
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface PLRepositoryModule {
+    @Binds
+    fun providesUserRepository(userRepository: PLUserRepositoryImpl): PLUserRepository
 }

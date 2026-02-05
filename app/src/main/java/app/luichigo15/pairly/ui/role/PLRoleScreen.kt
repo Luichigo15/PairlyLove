@@ -119,7 +119,7 @@ fun PLRoleScreen(
             }, selectedRole = roleData.role
         )
         PLCopyCodeField(
-            code = roleData.roleCode,
+            code = roleData.uuid,
             isVisible = showSelection && roleData.role == PLRoleConst.BOY_ROLE,
             modifier = Modifier
                 .fillMaxWidth()
@@ -157,10 +157,10 @@ fun PLRoleScreen(
 
     L15StateHandler(state = uiState, onSuccess = {
         PLAlertDialog(onDismiss = onNavigateToHome, message = R.string.pl_linked)
-    }, onError = {
+    }, onError = { error ->
         PLAlertDialog(onDismiss = {
             roleViewModel.onRoleEvent(PLRoleEvent.ResetState)
-        }, message = R.string.pl_try_again, isSuccess = false)
+        }, message = error.message, isSuccess = false)
     }, onLoading = {
         PLLoadingDialog()
     })
