@@ -10,6 +10,9 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import app.luichigo15.pairly.common.PLRoleConst
+import app.luichigo15.pairly.ui.home.boy.PLBoyHomeActivity
+import app.luichigo15.pairly.ui.home.girl.PLGirlHomeActivity
 import app.luichigo15.pairly.ui.role.PLRoleActivity
 import app.luichigo15.pairly.ui.theme.PLTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,16 +41,19 @@ class PLSplashActivity : ComponentActivity() {
                 splashViewModel.splashState.collect { splashState ->
                     if (!splashState.isAnimationFinished) return@collect
 
-                    chooseActivity(splashState.pairCode)
+                    chooseActivity(splashState.role)
                 }
             }
         }
     }
 
-    private fun chooseActivity(pairCode: String) {
-        val intent = if (pairCode.isEmpty()) Intent(this, PLRoleActivity::class.java)
-        else Intent(this, PLRoleActivity::class.java)
-        startActivity(intent)
+    private fun chooseActivity(role: String) {
+        val activity = when (role) {
+            PLRoleConst.BOY_ROLE -> PLBoyHomeActivity::class.java
+            PLRoleConst.GIRL_ROLE -> PLGirlHomeActivity::class.java
+            else -> PLRoleActivity::class.java
+        }
+        startActivity(Intent(this, activity))
         finish()
     }
 }

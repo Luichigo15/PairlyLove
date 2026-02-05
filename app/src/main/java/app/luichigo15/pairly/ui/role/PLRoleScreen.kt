@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PLRoleScreen(
-    onNavigateToHome: () -> Unit,
+    onNavigateToHome: (String) -> Unit,
     modifier: Modifier = Modifier,
     roleViewModel: PLRoleViewModel = hiltViewModel()
 ) {
@@ -156,7 +156,7 @@ fun PLRoleScreen(
     }
 
     L15StateHandler(state = uiState, onSuccess = {
-        PLAlertDialog(onDismiss = onNavigateToHome, message = R.string.pl_linked)
+        PLAlertDialog(onDismiss = { onNavigateToHome(roleData.role) }, message = R.string.pl_linked)
     }, onError = { error ->
         PLAlertDialog(onDismiss = {
             roleViewModel.onRoleEvent(PLRoleEvent.ResetState)

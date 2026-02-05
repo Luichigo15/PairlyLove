@@ -33,7 +33,13 @@
             android:theme="@style/Theme.Pairly"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
         <activity
-            android:name=".ui.home.PLHomeActivity"
+            android:name=".ui.home.boy.PLBoyHomeActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Pairly"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
+        <activity
+            android:name=".ui.home.girl.PLGirlHomeActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Pairly"

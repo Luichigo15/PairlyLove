@@ -5,5 +5,5 @@ import androidx.compose.runtime.Immutable
 @Immutable
 data class PLSplashState(
     val isAnimationFinished: Boolean = false,
-    val pairCode: String = ""
+    val role: String = ""
 )
