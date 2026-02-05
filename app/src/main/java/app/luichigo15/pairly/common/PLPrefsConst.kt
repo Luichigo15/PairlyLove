@@ -8,6 +8,8 @@ object PLPrefsConst {
     const val PREFS_NAME = "pairly_love_prefs"
     const val PAIR_CODE_KEY = "pair_code_key"
     val PAIR_CODE_PREF = stringPreferencesKey(PAIR_CODE_KEY)
+    const val ROLE_KEY = "role_key"
+    val ROLE_PREF = stringPreferencesKey(ROLE_KEY)
     const val SHOW_NOTIFICATIONS_KEY = "show_notifications_key"
     val SHOW_NOTIFICATIONS_PREF = booleanPreferencesKey(SHOW_NOTIFICATIONS_KEY)
 }

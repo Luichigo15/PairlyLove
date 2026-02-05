@@ -15,11 +15,17 @@ class PLPreferencesImpl(context: Context) : PLPreferences {
     private val dataStore = context.dataStore
     override val observePairCode: Flow<String>
         get() = dataStore.data.map { it[PLPrefsConst.PAIR_CODE_PREF] ?: "" }
+    override val observeRole: Flow<String>
+        get() = dataStore.data.map { it[PLPrefsConst.ROLE_PREF] ?: "" }
     override val observeShowNotifications: Flow<Boolean>
         get() = dataStore.data.map { it[PLPrefsConst.SHOW_NOTIFICATIONS_PREF] ?: false }
 
     override suspend fun setPairCode(pairCode: String) {
         dataStore.edit { it[PLPrefsConst.PAIR_CODE_PREF] = pairCode }
+    }
+
+    override suspend fun setRole(role: String) {
+        dataStore.edit { it[PLPrefsConst.ROLE_PREF] = role }
     }
 
     override suspend fun setShowNotifications(showNotifications: Boolean) {

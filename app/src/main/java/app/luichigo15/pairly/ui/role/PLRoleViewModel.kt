@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import app.luichigo15.common.utils.L15Result
 import app.luichigo15.pairly.common.PLErrorCodes
 import app.luichigo15.pairly.domain.model.PLUser
+import app.luichigo15.pairly.domain.usecase.preferences.PLPairCodeUseCase
+import app.luichigo15.pairly.domain.usecase.preferences.PLRoleUseCase
 import app.luichigo15.pairly.domain.usecase.user.PLCreateUserUseCase
 import app.luichigo15.pairly.ui.role.model.PLRoleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PLRoleViewModel @Inject constructor(
-    private val createUserUseCase: PLCreateUserUseCase
+    private val createUserUseCase: PLCreateUserUseCase,
+    private val pairCodeUseCase: PLPairCodeUseCase,
+    private val roleUseCase: PLRoleUseCase
 ) : ViewModel() {
 
     private val _roleData = MutableStateFlow(PLUser())
@@ -42,7 +46,11 @@ class PLRoleViewModel @Inject constructor(
                     is L15Result.Error -> _uiState.update { L15Result.Error(result.error) }
                     L15Result.Loading -> _uiState.update { L15Result.Loading }
                     L15Result.Start -> {}
-                    is L15Result.Success -> _uiState.update { L15Result.Success(true) }
+                    is L15Result.Success -> {
+                        pairCodeUseCase(_roleData.value.uuid)
+                        roleUseCase(_roleData.value.role)
+                        _uiState.update { L15Result.Success(true) }
+                    }
                 }
             }
         }
