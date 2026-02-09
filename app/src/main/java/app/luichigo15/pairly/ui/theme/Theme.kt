@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+@Suppress("DEPRECATION")
 @Composable
 fun PLTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
