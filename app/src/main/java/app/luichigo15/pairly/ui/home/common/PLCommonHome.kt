@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.luichigo15.pairly.ui.home.common.widget.PLHomeMenuCard
+import app.luichigo15.pairly.ui.home.navigation.PLRoute
 import app.luichigo15.pairly.ui.home.navigation.model.homeMenuItems
 import app.luichigo15.pairly.ui.theme.PLTheme
 
@@ -47,7 +48,10 @@ private fun getEnterTransition(i: Int) = slideInVertically(
     )
 )
 @Composable
-fun PLCommonHome(modifier: Modifier = Modifier) {
+fun PLCommonHome(
+    onNavigate: (route: PLRoute) -> Unit,
+    modifier: Modifier = Modifier
+) {
     var startAnimation by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -85,7 +89,9 @@ fun PLCommonHome(modifier: Modifier = Modifier) {
                     enter = getEnterTransition(i)
                 ) {
                     PLHomeMenuCard(
-                        onClick = {}, icon = option.icon, title = option.title,
+                        onClick = { onNavigate(option.route) },
+                        icon = option.icon,
+                        title = option.title,
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(1f)
@@ -100,6 +106,6 @@ fun PLCommonHome(modifier: Modifier = Modifier) {
 @Composable
 private fun PLCommonHomePreview() {
     PLTheme(darkTheme = true) {
-        PLCommonHome()
+        PLCommonHome({})
     }
 }

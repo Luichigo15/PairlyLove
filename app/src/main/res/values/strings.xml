@@ -21,4 +21,10 @@
     <string name="pl_gifts">Gifts</string>
     <string name="pl_questions">Questions</string>
     <string name="pl_puzzles">Puzzles</string>
+
+<!--  Gift  -->
+    <string name="pl_gift_card_left_side_1">LOVE</string>
+    <string name="pl_gift_card_left_side_2">COUPON</string>
+    <string name="pl_gift_card_right_side_title">VALID FOR:</string>
+
 </resources>

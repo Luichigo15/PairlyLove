@@ -16,8 +16,8 @@ fun PLTheme(
 ) {
     val colorScheme = if (darkTheme) darkScheme else lightScheme
     val view = LocalView.current
-    val window = (view.context as Activity).window
-    if (!view.isInEditMode)
+    if (!view.isInEditMode){
+        val window = (view.context as Activity).window
         SideEffect {
             window.navigationBarColor = colorScheme.surface.toArgb()
             window.statusBarColor = colorScheme.surface.toArgb()
@@ -25,7 +25,7 @@ fun PLTheme(
                 !darkTheme
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
-
+    }
 
     MaterialTheme(
         colorScheme = colorScheme,
