@@ -75,7 +75,7 @@ fun PLRoleScreen(
     ConstraintLayout(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.surface)
             .safeContentPadding()
             .padding(15.dp),
     ) {
@@ -96,7 +96,7 @@ fun PLRoleScreen(
                 }
                 .padding(top = titlePadding),
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onBackground)
+            color = MaterialTheme.colorScheme.onSurface)
         PLRoleSelection(
             isVisible = !showSelection,
             modifier = Modifier.constrainAs(rolesRef) {

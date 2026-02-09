@@ -68,7 +68,7 @@ private fun PLCodeBox(
     content: @Composable RowScope.() -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val borderColor = MaterialTheme.colorScheme.onBackground
+    val borderColor = MaterialTheme.colorScheme.onSurface
     AnimatedVisibility(
         visible = isVisible,
         enter = fadeIn(tween(durationMillis = 1000, delayMillis = 1200)),

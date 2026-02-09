@@ -15,4 +15,10 @@
     <string name="pl_linked">Now you are linked to your partner!</string>
     <string name="pl_code_does_not_exist">This code does not exist</string>
     <string name="pl_error_creating_user">Error creating user</string>
+
+<!--  Home  -->
+    <string name="pl_calendar">Calendar</string>
+    <string name="pl_gifts">Gifts</string>
+    <string name="pl_questions">Questions</string>
+    <string name="pl_puzzles">Puzzles</string>
 </resources>

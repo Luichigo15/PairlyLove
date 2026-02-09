@@ -34,12 +34,12 @@ fun PLRoleBackButton(
             onClick = onClick, border = IconButtonDefaults.outlinedIconButtonBorder(true).copy(
                 brush = Brush.linearGradient(
                     listOf(
-                        MaterialTheme.colorScheme.onBackground,
-                        MaterialTheme.colorScheme.onBackground
+                        MaterialTheme.colorScheme.onSurface,
+                        MaterialTheme.colorScheme.onSurface
                     )
                 )
             ), colors = IconButtonDefaults.outlinedIconButtonColors(
-                contentColor = MaterialTheme.colorScheme.onBackground,
+                contentColor = MaterialTheme.colorScheme.onSurface,
             ), modifier = modifier
         ) {
             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
