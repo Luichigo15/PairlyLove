@@ -26,5 +26,8 @@
     <string name="pl_gift_card_left_side_1">LOVE</string>
     <string name="pl_gift_card_left_side_2">COUPON</string>
     <string name="pl_gift_card_right_side_title">VALID FOR:</string>
-
+    <string name="pl_expires_on">Expires on:</string>
+    <string name="pl_expired_filter">Expired</string>
+    <string name="pl_valid_filter">Valid</string>
+    <string name="pl_all_filter">All</string>
 </resources>

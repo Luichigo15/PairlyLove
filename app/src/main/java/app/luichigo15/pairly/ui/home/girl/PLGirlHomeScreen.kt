@@ -19,6 +19,7 @@ import app.luichigo15.pairly.ui.home.navigation.PLRoute
 @Composable
 fun PLGirlHomeScreen(modifier: Modifier = Modifier){
     val backStack = remember { mutableStateListOf<PLRoute>(PLRoute.Home) }
+    val onBack: ()->Unit = { backStack.removeLastOrNull() }
 
     NavDisplay(
         modifier = modifier
@@ -27,7 +28,7 @@ fun PLGirlHomeScreen(modifier: Modifier = Modifier){
             .safeContentPadding()
             .padding(10.dp),
         backStack = backStack,
-        onBack = { backStack.removeLastOrNull() },
+        onBack = onBack,
         entryProvider = { key ->
             when (key) {
                 PLRoute.Home -> NavEntry(key) {
