@@ -32,6 +32,10 @@ fun PLGirlHomeScreen(modifier: Modifier = Modifier){
                 PLRoute.Home -> NavEntry(key) {
                     PLCommonHome()
                 }
+
+                else -> NavEntry(key) {
+                    PLCommonHome()
+                }
             }
         })
 }
