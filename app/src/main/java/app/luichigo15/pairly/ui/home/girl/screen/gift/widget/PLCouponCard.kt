@@ -42,7 +42,7 @@ import app.luichigo15.pairly.ui.theme.PLTheme
 import app.luichigo15.pairly.utils.rotateVertically
 
 @Composable
-fun PLGiftCard(modifier: Modifier = Modifier) {
+fun PLCouponCard(modifier: Modifier = Modifier) {
     Box {
         Card(
             shape = PLCouponShape(),
@@ -173,8 +173,8 @@ private fun PLRightSide(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-private fun PLGiftCardPreview() {
+private fun PLCouponCardPreview() {
     PLTheme(darkTheme = true) {
-        PLGiftCard()
+        PLCouponCard()
     }
 }

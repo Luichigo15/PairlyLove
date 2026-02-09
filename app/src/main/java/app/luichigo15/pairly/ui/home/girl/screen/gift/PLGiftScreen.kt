@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.luichigo15.pairly.ui.home.girl.screen.gift.widget.PLGiftCard
+import app.luichigo15.pairly.ui.home.girl.screen.gift.widget.PLCouponCard
 import app.luichigo15.pairly.ui.theme.PLTheme
 
 @Composable
@@ -29,7 +29,7 @@ fun PLGiftScreen(modifier: Modifier = Modifier) {
         contentPadding = PaddingValues(10.dp)
     ) {
         items(10){
-            PLGiftCard()
+            PLCouponCard()
         }
     }
 }
