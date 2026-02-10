@@ -1,4 +1,4 @@
-package app.luichigo15.pairly.utils
+package app.luichigo15.pairly.utils.extensions
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate

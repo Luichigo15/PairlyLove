@@ -30,4 +30,5 @@
     <string name="pl_expired_filter">Expired</string>
     <string name="pl_valid_filter">Valid</string>
     <string name="pl_all_filter">All</string>
+    <string name="pl_gift_name">Gift name:</string>
 </resources>

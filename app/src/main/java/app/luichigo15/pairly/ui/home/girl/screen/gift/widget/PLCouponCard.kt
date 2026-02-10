@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.luichigo15.pairly.R
 import app.luichigo15.pairly.ui.theme.PLTheme
-import app.luichigo15.pairly.utils.rotateVertically
+import app.luichigo15.pairly.utils.extensions.rotateVertically
 
 @Composable
 fun PLCouponCard(modifier: Modifier = Modifier) {
