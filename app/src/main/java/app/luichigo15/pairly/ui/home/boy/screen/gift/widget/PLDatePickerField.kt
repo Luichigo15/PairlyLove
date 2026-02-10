@@ -28,7 +28,10 @@ import app.luichigo15.pairly.utils.extensions.PLDateUtils
 import app.luichigo15.common.R as L15R
 
 @Composable
-fun PLDatePickerField(modifier: Modifier = Modifier) {
+fun PLDatePickerField(
+    onDateSelected: (Long?) -> Unit,
+    modifier: Modifier = Modifier
+) {
     var showDatePicker by remember { mutableStateOf(false) }
     var selectedDate by remember { mutableStateOf<Long?>(null) }
 
@@ -56,7 +59,10 @@ fun PLDatePickerField(modifier: Modifier = Modifier) {
     if (showDatePicker)
         PLDatePickerDialog(
             onDismiss = { showDatePicker = false },
-            onDateSelected = { selectedDate = it }
+            onDateSelected = {
+                onDateSelected(it)
+                selectedDate = it
+            }
         )
 
 }

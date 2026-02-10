@@ -4,31 +4,33 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.input.TextFieldLineLimits
-import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CardGiftcard
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.luichigo15.pairly.R
+import app.luichigo15.pairly.ui.home.boy.screen.gift.model.PLBoyGiftEvent
 import app.luichigo15.pairly.ui.home.boy.screen.gift.widget.PLDatePickerField
+import app.luichigo15.pairly.ui.home.boy.screen.gift.widget.PLGiftNameField
 import app.luichigo15.pairly.ui.theme.PLTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PLBoyGiftScreen(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
-    val giftName = rememberTextFieldState()
+fun PLBoyGiftScreen(
+    onDismiss: () -> Unit, modifier: Modifier = Modifier,
+    giftViewModel: PLBoyGiftViewModel = hiltViewModel()
+) {
+    val giftData by giftViewModel.giftData.collectAsStateWithLifecycle()
 
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(
@@ -40,20 +42,17 @@ fun PLBoyGiftScreen(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(stringResource(R.string.pl_gifts), style = MaterialTheme.typography.headlineLarge)
-            OutlinedTextField(
+            PLGiftNameField(modifier = Modifier.fillMaxWidth(), onValueChange = {
+                giftViewModel.onGiftEvent(PLBoyGiftEvent.NameChanged(it))
+            })
+            PLDatePickerField(modifier = Modifier.fillMaxWidth(), onDateSelected = {
+                giftViewModel.onGiftEvent(PLBoyGiftEvent.DateChanged(it ?: 0L))
+            })
+            Button(
+                onClick = { giftViewModel.onGiftEvent(PLBoyGiftEvent.Submit) },
                 modifier = Modifier.fillMaxWidth(),
-                state = giftName, label = {
-                    Text(stringResource(R.string.pl_gift_name))
-                }, lineLimits = TextFieldLineLimits.SingleLine,
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.CardGiftcard,
-                        contentDescription = null,
-                    )
-                }
-            )
-            PLDatePickerField(modifier = Modifier.fillMaxWidth())
-            Button(onClick = { onDismiss() }, modifier = Modifier.fillMaxWidth()) {
+                enabled = giftData.getValid()
+            ) {
                 Text(stringResource(R.string.pl_continue))
             }
         }
