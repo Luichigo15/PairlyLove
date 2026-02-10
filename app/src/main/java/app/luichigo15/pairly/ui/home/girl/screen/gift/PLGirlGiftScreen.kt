@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -21,15 +21,18 @@ import app.luichigo15.pairly.ui.home.girl.screen.gift.widget.PLCouponFilter
 import app.luichigo15.pairly.ui.theme.PLTheme
 
 @Composable
-fun PLGirlGiftScreen(modifier: Modifier = Modifier) {
-    var selectedFilter by remember { mutableStateOf(1) }
+fun PLGirlGiftScreen(
+    onBack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var selectedFilter by remember { mutableIntStateOf(1) }
 
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        PLTopBar(title = R.string.pl_gifts, {})
+        PLTopBar(title = R.string.pl_gifts, onBackClick = onBack)
         PLCouponFilter(selectedFilter = selectedFilter, onFilterSelected = { selectedFilter = it })
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -48,6 +51,6 @@ fun PLGirlGiftScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun PLGirlGiftScreenPreview() {
     PLTheme(darkTheme = true) {
-        PLGirlGiftScreen()
+        PLGirlGiftScreen({})
     }
 }

@@ -38,7 +38,7 @@ fun PLGirlHomeScreen(modifier: Modifier = Modifier){
                 }
 
                 PLRoute.Gift -> NavEntry(key){
-                    PLGirlGiftScreen()
+                    PLGirlGiftScreen(onBack = onBack)
                 }
 
                 else -> NavEntry(key) {
