@@ -18,7 +18,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.luichigo15.common.ui.common.L15StateHandler
 import app.luichigo15.pairly.R
+import app.luichigo15.pairly.ui.common.PLAlertDialog
+import app.luichigo15.pairly.ui.common.PLLoadingDialog
 import app.luichigo15.pairly.ui.home.boy.screen.gift.model.PLBoyGiftEvent
 import app.luichigo15.pairly.ui.home.boy.screen.gift.widget.PLDatePickerField
 import app.luichigo15.pairly.ui.home.boy.screen.gift.widget.PLGiftNameField
@@ -31,6 +34,7 @@ fun PLBoyGiftScreen(
     giftViewModel: PLBoyGiftViewModel = hiltViewModel()
 ) {
     val giftData by giftViewModel.giftData.collectAsStateWithLifecycle()
+    val uiState by giftViewModel.uiState.collectAsStateWithLifecycle()
 
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(
@@ -57,6 +61,19 @@ fun PLBoyGiftScreen(
             }
         }
     }
+
+    L15StateHandler(state = uiState, onSuccess = {
+        PLAlertDialog(onDismiss = {
+            giftViewModel.onGiftEvent(PLBoyGiftEvent.ResetState)
+            onDismiss()
+        }, message = R.string.pl_gift_created)
+    }, onError = { error ->
+        PLAlertDialog(onDismiss = {
+            giftViewModel.onGiftEvent(PLBoyGiftEvent.ResetState)
+        }, message = error.message, isSuccess = false)
+    }, onLoading = {
+        PLLoadingDialog()
+    })
 }
 
 @Preview(showBackground = true)

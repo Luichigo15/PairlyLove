@@ -31,4 +31,6 @@
     <string name="pl_valid_filter">Valid</string>
     <string name="pl_all_filter">All</string>
     <string name="pl_gift_name">Gift name:</string>
+    <string name="pl_error_creating_gift">Error creating gift</string>
+    <string name="pl_gift_created">Gift created!</string>
 </resources>

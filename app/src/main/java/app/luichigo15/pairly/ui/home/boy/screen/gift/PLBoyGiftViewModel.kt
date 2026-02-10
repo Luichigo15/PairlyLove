@@ -1,17 +1,23 @@
 package app.luichigo15.pairly.ui.home.boy.screen.gift
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.luichigo15.common.utils.L15Result
 import app.luichigo15.pairly.common.PLErrorCodes
 import app.luichigo15.pairly.domain.model.PLGift
+import app.luichigo15.pairly.domain.usecase.gift.PLCreateGiftUseCase
 import app.luichigo15.pairly.ui.home.boy.screen.gift.model.PLBoyGiftEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PLBoyGiftViewModel @Inject constructor() : ViewModel() {
+@HiltViewModel
+class PLBoyGiftViewModel @Inject constructor(
+    private val createGiftUseCase: PLCreateGiftUseCase
+) : ViewModel() {
 
     private val _giftData = MutableStateFlow(PLGift())
     val giftData = _giftData.asStateFlow()
@@ -29,6 +35,16 @@ class PLBoyGiftViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun createGift(){
+        viewModelScope.launch {
+            createGiftUseCase(_giftData.value).collect { result ->
+                when (result) {
+                    is L15Result.Error -> _uiState.update { L15Result.Error(result.error) }
+                    L15Result.Loading -> _uiState.update { L15Result.Loading }
+                    L15Result.Start -> {}
+                    is L15Result.Success -> _uiState.update { L15Result.Success(true) }
+                }
+            }
+        }
     }
 
 }
