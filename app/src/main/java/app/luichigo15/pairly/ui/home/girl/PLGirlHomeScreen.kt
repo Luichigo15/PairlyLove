@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import app.luichigo15.pairly.ui.home.common.PLCommonHome
-import app.luichigo15.pairly.ui.home.girl.screen.gift.PLGiftScreen
+import app.luichigo15.pairly.ui.home.girl.screen.gift.PLGirlGiftScreen
 import app.luichigo15.pairly.ui.home.navigation.PLRoute
 
 @Composable
@@ -38,7 +38,7 @@ fun PLGirlHomeScreen(modifier: Modifier = Modifier){
                 }
 
                 PLRoute.Gift -> NavEntry(key){
-                    PLGiftScreen()
+                    PLGirlGiftScreen()
                 }
 
                 else -> NavEntry(key) {

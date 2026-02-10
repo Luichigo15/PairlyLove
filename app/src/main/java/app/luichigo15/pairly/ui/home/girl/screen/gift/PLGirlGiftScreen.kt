@@ -21,7 +21,7 @@ import app.luichigo15.pairly.ui.home.girl.screen.gift.widget.PLCouponFilter
 import app.luichigo15.pairly.ui.theme.PLTheme
 
 @Composable
-fun PLGiftScreen(modifier: Modifier = Modifier) {
+fun PLGirlGiftScreen(modifier: Modifier = Modifier) {
     var selectedFilter by remember { mutableStateOf(1) }
 
     Column(
@@ -46,8 +46,8 @@ fun PLGiftScreen(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-private fun PLGiftScreenPreview() {
+private fun PLGirlGiftScreenPreview() {
     PLTheme(darkTheme = true) {
-        PLGiftScreen()
+        PLGirlGiftScreen()
     }
 }
