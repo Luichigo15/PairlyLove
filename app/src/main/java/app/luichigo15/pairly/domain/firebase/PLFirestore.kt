@@ -14,4 +14,6 @@ interface PLFirestore {
     fun createGift(gift: PLGift): Flow<L15Result<Boolean, PLErrorCodes>>
 
     fun listenToGifts(): Flow<List<PLGiftEntity>>
+
+    suspend fun updateNotificationsToken(token: String)
 }

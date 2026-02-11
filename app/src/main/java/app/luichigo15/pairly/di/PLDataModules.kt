@@ -7,13 +7,13 @@ import app.luichigo15.pairly.data.database.dao.PLGiftDao
 import app.luichigo15.pairly.data.firebase.PLFirestoreImpl
 import app.luichigo15.pairly.data.firebase.PLPushNotificationsImpl
 import app.luichigo15.pairly.data.preferences.PLPreferencesImpl
-import app.luichigo15.pairly.data.provider.PLPairCodeProviderImpl
+import app.luichigo15.pairly.data.provider.PLUserDataProviderImpl
 import app.luichigo15.pairly.data.repository.PLGiftRepositoryImpl
 import app.luichigo15.pairly.data.repository.PLUserRepositoryImpl
 import app.luichigo15.pairly.domain.firebase.PLFirestore
 import app.luichigo15.pairly.domain.firebase.PLPushNotifications
 import app.luichigo15.pairly.domain.preferences.PLPreferences
-import app.luichigo15.pairly.domain.provider.PLPairCodeProvider
+import app.luichigo15.pairly.domain.provider.PLUserDataProvider
 import app.luichigo15.pairly.domain.repository.PLGiftRepository
 import app.luichigo15.pairly.domain.repository.PLUserRepository
 import app.luichigo15.pairly.environment.PLEnvironment
@@ -71,9 +71,9 @@ interface PLRepositoryModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface PLPairCodeModule {
+interface PLUserDataModule {
 
     @Binds
     @Singleton
-    fun providesPairCodeProvider(pairCodeProvider: PLPairCodeProviderImpl): PLPairCodeProvider
+    fun providesUserDataProvider(userDataProvider: PLUserDataProviderImpl): PLUserDataProvider
 }

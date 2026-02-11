@@ -9,19 +9,21 @@ import app.luichigo15.pairly.data.database.model.PLGiftEntity
 import app.luichigo15.pairly.domain.firebase.PLFirestore
 import app.luichigo15.pairly.domain.model.PLGift
 import app.luichigo15.pairly.domain.model.PLUser
-import app.luichigo15.pairly.domain.provider.PLPairCodeProvider
+import app.luichigo15.pairly.domain.provider.PLUserDataProvider
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 
 class PLFirestoreImpl @Inject constructor(
-    private val pairCodeProvider: PLPairCodeProvider
+    private val userDataProvider: PLUserDataProvider
 ) : PLFirestore {
     private val TAG = PLFirestoreImpl::class.java.simpleName
 
@@ -76,7 +78,7 @@ class PLFirestoreImpl @Inject constructor(
         emit(L15Result.Loading)
         val result = suspendCancellableCoroutine { cont ->
             firestore.collection(PLFirebaseConst.USERS_NODE)
-                .document(pairCodeProvider.pairCode.value)
+                .document(userDataProvider.pairCode.value)
                 .collection(PLFirebaseConst.GIFTS_NODE)
                 .document(gift.id)
                 .set(gift)
@@ -100,7 +102,7 @@ class PLFirestoreImpl @Inject constructor(
 
     override fun listenToGifts(): Flow<List<PLGiftEntity>> = callbackFlow {
         val listener = firestore.collection(PLFirebaseConst.USERS_NODE)
-            .document(pairCodeProvider.pairCode.value)
+            .document(userDataProvider.pairCode.value)
             .collection(PLFirebaseConst.GIFTS_NODE)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
@@ -117,5 +119,22 @@ class PLFirestoreImpl @Inject constructor(
         awaitClose {
             listener.remove()
         }
+    }
+
+    override suspend fun updateNotificationsToken(token: String) {
+        val pairCode = withTimeoutOrNull(5000) {
+            userDataProvider.pairCode.first { it.isNotBlank() }
+        } ?: return
+
+        val role = withTimeoutOrNull(5000) {
+            userDataProvider.role.first { it.isNotBlank() }
+        } ?: return
+
+        firestore.collection(PLFirebaseConst.USERS_NODE)
+            .document(pairCode)
+            .collection(PLFirebaseConst.ROLES_NODE)
+            .document(role)
+            .update(PLFirebaseConst.NOTIFICATIONS_TOKEN_FIELD, token)
+            .await()
     }
 }

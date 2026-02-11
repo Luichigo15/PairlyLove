@@ -1,7 +1,7 @@
 package app.luichigo15.pairly.data.provider
 
 import app.luichigo15.pairly.domain.preferences.PLPreferences
-import app.luichigo15.pairly.domain.provider.PLPairCodeProvider
+import app.luichigo15.pairly.domain.provider.PLUserDataProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -12,9 +12,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PLPairCodeProviderImpl @Inject constructor(
+class PLUserDataProviderImpl @Inject constructor(
     preferences: PLPreferences,
-) : PLPairCodeProvider {
+) : PLUserDataProvider {
     override val pairCode: StateFlow<String> =
         preferences.observePairCode
             .stateIn(
@@ -22,4 +22,9 @@ class PLPairCodeProviderImpl @Inject constructor(
                 started = SharingStarted.Eagerly,
                 initialValue = ""
             )
+    override val role: StateFlow<String> = preferences.observeRole.stateIn(
+        scope = CoroutineScope(SupervisorJob() + Dispatchers.IO),
+        started = SharingStarted.Eagerly,
+        initialValue = ""
+    )
 }
