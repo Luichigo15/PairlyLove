@@ -16,9 +16,6 @@ class PLMessagingService : FirebaseMessagingService() {
     @Inject
     lateinit var firestore: PLFirestore
 
-    @Inject
-
-
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
     }
