@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PLGirlGiftViewModel @Inject constructor(
-    private val syncGiftsUseCase: PLSyncGiftsUseCase,
-    private val observeGiftsUseCase: PLObserveGiftsUseCase
+    syncGiftsUseCase: PLSyncGiftsUseCase,
+    observeGiftsUseCase: PLObserveGiftsUseCase
 ) : ViewModel() {
 
     val gifts =

@@ -33,4 +33,5 @@
     <string name="pl_gift_name">Gift name:</string>
     <string name="pl_error_creating_gift">Error creating gift</string>
     <string name="pl_gift_created">Gift created!</string>
+    <string name="pl_no_gifts">There are no gifts yet</string>
 </resources>

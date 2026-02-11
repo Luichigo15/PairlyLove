@@ -9,10 +9,10 @@ import app.luichigo15.pairly.domain.model.PLGift
     tableName = "gift"
 )
 data class PLGiftEntity(
-    @PrimaryKey(autoGenerate = false) val id: String,
-    val name: String,
-    @ColumnInfo(name = "expires_on") val expiresOn: Long,
-    val redeemed: Boolean
+    @PrimaryKey(autoGenerate = false) val id: String = "",
+    val name: String = "",
+    @ColumnInfo(name = "expires_on") val expiresOn: Long = 0L,
+    val redeemed: Boolean = false
 ) {
     fun toDomain(): PLGift = PLGift(
         id = id,

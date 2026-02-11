@@ -15,4 +15,6 @@ data class PLGift(
     fun setExpiresOn(expiresOn: Long) = copy(expiresOn = expiresOn)
 
     fun getValid() = name.isNotEmpty() && expiresOn != 0L
+
+    fun checkExpired() = System.currentTimeMillis() > expiresOn || redeemed
 }

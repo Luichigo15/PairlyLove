@@ -39,11 +39,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.luichigo15.pairly.R
+import app.luichigo15.pairly.domain.model.PLGift
 import app.luichigo15.pairly.ui.theme.PLTheme
+import app.luichigo15.pairly.utils.extensions.PLDateUtils
 import app.luichigo15.pairly.utils.extensions.rotateVertically
 
 @Composable
-fun PLCouponCard(modifier: Modifier = Modifier) {
+fun PLCouponCard(
+    gift: PLGift,
+    modifier: Modifier = Modifier
+) {
     Box {
         Card(
             shape = PLCouponShape(),
@@ -67,7 +72,7 @@ fun PLCouponCard(modifier: Modifier = Modifier) {
             ) {
                 PLLeftSide()
                 PLDottedLine()
-                PLRightSide(modifier = Modifier.weight(1f))
+                PLRightSide(modifier = Modifier.weight(1f), gift = gift)
             }
         }
 
@@ -87,8 +92,7 @@ fun PLCouponCard(modifier: Modifier = Modifier) {
                     .rotate(-20f)
             )
         }
-
-        SmallFloatingActionButton(
+        if (!gift.checkExpired()) SmallFloatingActionButton(
             onClick = {},
             containerColor = MaterialTheme.colorScheme.primary,
             modifier = Modifier
@@ -152,7 +156,10 @@ private fun PLDottedLine(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun PLRightSide(modifier: Modifier = Modifier) {
+private fun PLRightSide(
+    gift: PLGift,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center
@@ -164,19 +171,20 @@ private fun PLRightSide(modifier: Modifier = Modifier) {
         )
 
         Text(
-            "UNA CITA ROMÁNTICA BAJO LAS ESTRELLAS",
+            gift.name,
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 2
         )
 
-        Spacer(Modifier.weight(1f))
-
-        Text(
-            stringResource(R.string.pl_expires_on),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+        if (!gift.checkExpired()) {
+            Spacer(Modifier.weight(1f))
+            Text(
+                stringResource(R.string.pl_expires_on).plus(" ${PLDateUtils.convertMillisToDate(gift.expiresOn)}"),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
     }
 }
 
@@ -184,6 +192,6 @@ private fun PLRightSide(modifier: Modifier = Modifier) {
 @Composable
 private fun PLCouponCardPreview() {
     PLTheme(darkTheme = true) {
-        PLCouponCard()
+        PLCouponCard(PLGift())
     }
 }
