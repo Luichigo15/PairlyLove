@@ -11,4 +11,7 @@ interface PLGiftDao : L15BaseDao<PLGiftEntity> {
 
     @Query("SELECT * FROM gift")
     fun observeGifts(): Flow<List<PLGiftEntity>>
+
+    @Query("UPDATE gift SET redeemed = 1 WHERE id = :id")
+    suspend fun redeemGift(id: String)
 }

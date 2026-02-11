@@ -27,6 +27,7 @@ import app.luichigo15.pairly.R
 import app.luichigo15.pairly.common.PLCommonConst
 import app.luichigo15.pairly.ui.common.PLEmptyScreen
 import app.luichigo15.pairly.ui.home.common.PLTopBar
+import app.luichigo15.pairly.ui.home.girl.screen.gift.model.PLGirlGiftEvent
 import app.luichigo15.pairly.ui.home.girl.screen.gift.widget.PLCouponCard
 import app.luichigo15.pairly.ui.home.girl.screen.gift.widget.PLCouponFilter
 import app.luichigo15.pairly.ui.theme.PLTheme
@@ -77,6 +78,7 @@ fun PLGirlGiftScreen(
                             if (graphicsLayer.size.width > 0 && graphicsLayer.size.height > 0) {
                                 val uri = graphicsLayer.saveAsShareableFile(context)
                                 shareCoupon(context, uri)
+                                giftViewModel.onEvent(PLGirlGiftEvent.GiftRedeemed(gift.id))
                             }
                         }
                     })

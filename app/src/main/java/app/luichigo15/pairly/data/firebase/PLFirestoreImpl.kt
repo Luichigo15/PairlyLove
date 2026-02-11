@@ -121,6 +121,15 @@ class PLFirestoreImpl @Inject constructor(
         }
     }
 
+    override suspend fun redeemGift(id: String) {
+        firestore.collection(PLFirebaseConst.USERS_NODE)
+            .document(userDataProvider.pairCode.value)
+            .collection(PLFirebaseConst.GIFTS_NODE)
+            .document(id)
+            .update(PLFirebaseConst.REDEEMED_FIELD, true)
+            .await()
+    }
+
     override suspend fun updateNotificationsToken(token: String) {
         val pairCode = withTimeoutOrNull(5000) {
             userDataProvider.pairCode.first { it.isNotBlank() }

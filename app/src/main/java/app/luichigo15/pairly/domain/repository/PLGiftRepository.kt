@@ -9,4 +9,5 @@ interface PLGiftRepository {
     fun createGift(gift: PLGift): Flow<L15Result<Boolean, PLErrorCodes>>
     fun syncGifts(): Flow<Unit>
     fun observeGifts(): Flow<List<PLGift>>
+    suspend fun redeemGift(id: String)
 }

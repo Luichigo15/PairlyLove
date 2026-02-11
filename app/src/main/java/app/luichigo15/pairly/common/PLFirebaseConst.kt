@@ -7,4 +7,6 @@ object PLFirebaseConst {
     const val GIFTS_NODE = "gifts"
 
     const val NOTIFICATIONS_TOKEN_FIELD = "notificationsToken"
+    const val REDEEMED_FIELD = "redeemed"
+
 }

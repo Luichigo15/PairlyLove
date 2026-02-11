@@ -15,5 +15,7 @@ interface PLFirestore {
 
     fun listenToGifts(): Flow<List<PLGiftEntity>>
 
+    suspend fun redeemGift(id: String)
+
     suspend fun updateNotificationsToken(token: String)
 }

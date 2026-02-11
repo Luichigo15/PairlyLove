@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PLGiftRepositoryImpl @Inject constructor(
@@ -31,5 +32,10 @@ class PLGiftRepositoryImpl @Inject constructor(
 
     override fun observeGifts(): Flow<List<PLGift>> = giftDao.observeGifts().map { gifts ->
         gifts.map { it.toDomain() }
+    }
+
+    override suspend fun redeemGift(id: String) = withContext(Dispatchers.IO) {
+        giftDao.redeemGift(id)
+        firestore.redeemGift(id)
     }
 }
