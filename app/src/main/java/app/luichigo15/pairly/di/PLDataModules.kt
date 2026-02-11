@@ -3,6 +3,7 @@ package app.luichigo15.pairly.di
 import android.content.Context
 import app.luichigo15.common.database.L15DatabaseProvider
 import app.luichigo15.pairly.data.database.PLDatabase
+import app.luichigo15.pairly.data.database.dao.PLGiftDao
 import app.luichigo15.pairly.data.firebase.PLFirestoreImpl
 import app.luichigo15.pairly.data.firebase.PLPushNotificationsImpl
 import app.luichigo15.pairly.data.preferences.PLPreferencesImpl
@@ -36,6 +37,9 @@ object PLDatabaseModule {
             PLDatabase::class.java,
             PLEnvironment.createDatabaseConfig()
         ).build()
+
+    @Provides
+    fun providesGiftDao(database: PLDatabase): PLGiftDao = database.giftDao()
 }
 
 @Module

@@ -7,4 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface PLGiftRepository {
     fun createGift(gift: PLGift): Flow<L15Result<Boolean, PLErrorCodes>>
+    fun syncGifts(): Flow<Unit>
+    fun observeGifts(): Flow<List<PLGift>>
 }

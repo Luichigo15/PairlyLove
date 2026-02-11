@@ -5,13 +5,16 @@ import app.luichigo15.common.utils.L15Result
 import app.luichigo15.pairly.common.PLErrorCodes
 import app.luichigo15.pairly.common.PLFirebaseConst
 import app.luichigo15.pairly.common.PLRoleConst
+import app.luichigo15.pairly.data.database.model.PLGiftEntity
 import app.luichigo15.pairly.domain.firebase.PLFirestore
 import app.luichigo15.pairly.domain.model.PLGift
 import app.luichigo15.pairly.domain.model.PLUser
 import app.luichigo15.pairly.domain.provider.PLPairCodeProvider
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
@@ -93,5 +96,26 @@ class PLFirestoreImpl @Inject constructor(
         }
 
         emit(result)
+    }
+
+    override fun listenToGifts(): Flow<List<PLGiftEntity>> = callbackFlow {
+        val listener = firestore.collection(PLFirebaseConst.USERS_NODE)
+            .document(pairCodeProvider.pairCode.value)
+            .collection(PLFirebaseConst.GIFTS_NODE)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    L15Logger.e(TAG, "listenToGifts", "Error listening to gifts $error")
+                    close(error)
+                    return@addSnapshotListener
+                }
+
+                val gifts = snapshot?.documents?.mapNotNull {
+                    it.toObject(PLGiftEntity::class.java)
+                }
+                trySend(gifts ?: emptyList())
+            }
+        awaitClose {
+            listener.remove()
+        }
     }
 }
