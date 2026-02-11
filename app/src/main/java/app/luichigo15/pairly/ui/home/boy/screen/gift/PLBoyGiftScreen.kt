@@ -47,13 +47,13 @@ fun PLBoyGiftScreen(
         ) {
             Text(stringResource(R.string.pl_gifts), style = MaterialTheme.typography.headlineLarge)
             PLGiftNameField(modifier = Modifier.fillMaxWidth(), onValueChange = {
-                giftViewModel.onGiftEvent(PLBoyGiftEvent.NameChanged(it))
+                giftViewModel.onEvent(PLBoyGiftEvent.NameChanged(it))
             })
             PLDatePickerField(modifier = Modifier.fillMaxWidth(), onDateSelected = {
-                giftViewModel.onGiftEvent(PLBoyGiftEvent.DateChanged(it ?: 0L))
+                giftViewModel.onEvent(PLBoyGiftEvent.DateChanged(it ?: 0L))
             })
             Button(
-                onClick = { giftViewModel.onGiftEvent(PLBoyGiftEvent.Submit) },
+                onClick = { giftViewModel.onEvent(PLBoyGiftEvent.Submit) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = giftData.getValid()
             ) {
@@ -64,12 +64,12 @@ fun PLBoyGiftScreen(
 
     L15StateHandler(state = uiState, onSuccess = {
         PLAlertDialog(onDismiss = {
-            giftViewModel.onGiftEvent(PLBoyGiftEvent.ResetState)
+            giftViewModel.onEvent(PLBoyGiftEvent.ResetState)
             onDismiss()
         }, message = R.string.pl_gift_created)
     }, onError = { error ->
         PLAlertDialog(onDismiss = {
-            giftViewModel.onGiftEvent(PLBoyGiftEvent.ResetState)
+            giftViewModel.onEvent(PLBoyGiftEvent.ResetState)
         }, message = error.message, isSuccess = false)
     }, onLoading = {
         PLLoadingDialog()

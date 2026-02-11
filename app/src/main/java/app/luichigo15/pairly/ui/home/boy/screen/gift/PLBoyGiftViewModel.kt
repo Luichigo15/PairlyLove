@@ -25,7 +25,7 @@ class PLBoyGiftViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<L15Result<Boolean, PLErrorCodes>>(L15Result.Start)
     val uiState = _uiState.asStateFlow()
 
-    fun onGiftEvent(event: PLBoyGiftEvent){
+    fun onEvent(event: PLBoyGiftEvent){
         when(event){
             is PLBoyGiftEvent.DateChanged -> _giftData.update { it.setExpiresOn(event.date) }
             is PLBoyGiftEvent.NameChanged -> _giftData.update { it.setName(event.name) }

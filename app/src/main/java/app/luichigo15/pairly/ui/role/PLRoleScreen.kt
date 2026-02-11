@@ -62,7 +62,7 @@ fun PLRoleScreen(
             showSelection = false
             coroutineScope.launch {
                 delay(1800)
-                roleViewModel.onRoleEvent(PLRoleEvent.ClearRole)
+                roleViewModel.onEvent(PLRoleEvent.ClearRole)
             }
             enterCodeState.clearText()
         }
@@ -106,7 +106,7 @@ fun PLRoleScreen(
                 end.linkTo(parent.end)
             },
             onRoleSelected = {
-                roleViewModel.onRoleEvent(PLRoleEvent.RoleSelected(it))
+                roleViewModel.onEvent(PLRoleEvent.RoleSelected(it))
                 showSelection = true
             })
         PLRoleSelected(
@@ -132,7 +132,7 @@ fun PLRoleScreen(
             isVisible = showSelection && roleData.role == PLRoleConst.GIRL_ROLE,
             state = enterCodeState,
             onValueChange = {
-                roleViewModel.onRoleEvent(PLRoleEvent.CodeChanged(it))
+                roleViewModel.onEvent(PLRoleEvent.CodeChanged(it))
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -151,7 +151,7 @@ fun PLRoleScreen(
                 }
                 .padding(20.dp),
             onClick = {
-                roleViewModel.onRoleEvent(PLRoleEvent.Submit)
+                roleViewModel.onEvent(PLRoleEvent.Submit)
             })
     }
 
@@ -159,7 +159,7 @@ fun PLRoleScreen(
         PLAlertDialog(onDismiss = { onNavigateToHome(roleData.role) }, message = R.string.pl_linked)
     }, onError = { error ->
         PLAlertDialog(onDismiss = {
-            roleViewModel.onRoleEvent(PLRoleEvent.ResetState)
+            roleViewModel.onEvent(PLRoleEvent.ResetState)
         }, message = error.message, isSuccess = false)
     }, onLoading = {
         PLLoadingDialog()

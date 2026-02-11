@@ -1,4 +1,4 @@
-package app.luichigo15.pairly.ui.home.common.widget
+package app.luichigo15.pairly.ui.home.common.home.widget
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

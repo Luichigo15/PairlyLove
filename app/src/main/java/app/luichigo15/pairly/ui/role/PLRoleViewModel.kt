@@ -29,7 +29,7 @@ class PLRoleViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<L15Result<Boolean, PLErrorCodes>>(L15Result.Start)
     val uiState = _uiState.asStateFlow()
 
-    fun onRoleEvent(event: PLRoleEvent) {
+    fun onEvent(event: PLRoleEvent) {
         when (event) {
             is PLRoleEvent.RoleSelected -> _roleData.update { it.setRole(event.role) }
             PLRoleEvent.ClearRole -> _roleData.update { it.clear() }

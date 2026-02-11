@@ -1,5 +1,7 @@
-package app.luichigo15.pairly.ui.home.common
+package app.luichigo15.pairly.ui.home.common.home
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -28,9 +30,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.luichigo15.pairly.ui.home.common.widget.PLHomeMenuCard
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import app.luichigo15.common.ui.utils.L15PermissionRequester
+import app.luichigo15.pairly.ui.home.common.home.model.PLHomeEvent
+import app.luichigo15.pairly.ui.home.common.home.widget.PLHomeMenuCard
 import app.luichigo15.pairly.ui.home.navigation.PLRoute
 import app.luichigo15.pairly.ui.home.navigation.model.homeMenuItems
 import app.luichigo15.pairly.ui.theme.PLTheme
@@ -50,9 +56,19 @@ private fun getEnterTransition(i: Int) = slideInVertically(
 @Composable
 fun PLCommonHome(
     onNavigate: (route: PLRoute) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    homeViewModel: PLHomeViewModel = hiltViewModel()
 ) {
     var startAnimation by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        L15PermissionRequester(
+            context = context,
+            permission = Manifest.permission.POST_NOTIFICATIONS
+        ) { isGranted ->
+            homeViewModel.onEvent(PLHomeEvent.RequestNotificationPermission(isGranted))
+        }
+    }
 
     LaunchedEffect(Unit) {
         startAnimation = true

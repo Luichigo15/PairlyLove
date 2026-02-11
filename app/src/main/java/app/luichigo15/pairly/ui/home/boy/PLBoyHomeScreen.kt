@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import app.luichigo15.pairly.ui.home.boy.screen.gift.PLBoyGiftScreen
-import app.luichigo15.pairly.ui.home.common.PLCommonHome
+import app.luichigo15.pairly.ui.home.common.home.PLCommonHome
 import app.luichigo15.pairly.ui.home.navigation.PLRoute
 
 @Composable
