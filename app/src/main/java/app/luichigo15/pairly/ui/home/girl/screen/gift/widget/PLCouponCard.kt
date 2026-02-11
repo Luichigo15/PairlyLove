@@ -26,9 +26,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.layer.GraphicsLayer
+import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -46,10 +49,19 @@ import app.luichigo15.pairly.utils.extensions.rotateVertically
 
 @Composable
 fun PLCouponCard(
+    onShare: (GraphicsLayer) -> Unit,
     gift: PLGift,
     modifier: Modifier = Modifier
 ) {
-    Box {
+    var graphicsLayer = rememberGraphicsLayer()
+
+    Box(modifier = Modifier.drawWithCache {
+        graphicsLayer = obtainGraphicsLayer().apply {
+            record { drawContent() }
+        }
+
+        onDrawWithContent { drawContent() }
+    }) {
         Card(
             shape = PLCouponShape(),
             modifier = modifier.fillMaxWidth(),
@@ -93,7 +105,7 @@ fun PLCouponCard(
             )
         }
         if (!gift.checkExpired()) SmallFloatingActionButton(
-            onClick = {},
+            onClick = { onShare(graphicsLayer) },
             containerColor = MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -192,6 +204,6 @@ private fun PLRightSide(
 @Composable
 private fun PLCouponCardPreview() {
     PLTheme(darkTheme = true) {
-        PLCouponCard(PLGift())
+        PLCouponCard({}, PLGift())
     }
 }

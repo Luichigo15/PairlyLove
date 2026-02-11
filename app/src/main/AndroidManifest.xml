@@ -45,6 +45,15 @@
             android:theme="@style/Theme.Pairly"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
+        <provider
+            android:name=".utils.helpers.PLFileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/pl_provider_paths" />
+        </provider>
     </application>
 
 </manifest>

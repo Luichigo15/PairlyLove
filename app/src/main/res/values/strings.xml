@@ -34,4 +34,5 @@
     <string name="pl_error_creating_gift">Error creating gift</string>
     <string name="pl_gift_created">Gift created!</string>
     <string name="pl_no_gifts">There are no gifts yet</string>
+    <string name="pl_exchange_coupon_msg">I want to exchange this coupon for a gift!</string>
 </resources>
