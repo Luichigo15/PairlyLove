@@ -1,6 +1,8 @@
 package app.luichigo15.pairly.di
 
 import android.content.Context
+import app.luichigo15.common.database.L15DatabaseProvider
+import app.luichigo15.pairly.data.database.PLDatabase
 import app.luichigo15.pairly.data.firebase.PLFirestoreImpl
 import app.luichigo15.pairly.data.firebase.PLPushNotificationsImpl
 import app.luichigo15.pairly.data.preferences.PLPreferencesImpl
@@ -13,6 +15,7 @@ import app.luichigo15.pairly.domain.preferences.PLPreferences
 import app.luichigo15.pairly.domain.provider.PLPairCodeProvider
 import app.luichigo15.pairly.domain.repository.PLGiftRepository
 import app.luichigo15.pairly.domain.repository.PLUserRepository
+import app.luichigo15.pairly.environment.PLEnvironment
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -24,6 +27,15 @@ import jakarta.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object PLDatabaseModule {
+
+    @Singleton
+    @Provides
+    fun providesDatabase(@ApplicationContext context: Context): PLDatabase =
+        L15DatabaseProvider.getBuilder(
+            context,
+            PLDatabase::class.java,
+            PLEnvironment.createDatabaseConfig()
+        ).build()
 }
 
 @Module

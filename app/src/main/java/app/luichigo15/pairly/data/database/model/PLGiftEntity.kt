@@ -1,0 +1,15 @@
+package app.luichigo15.pairly.data.database.model
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(
+    tableName = "gift"
+)
+data class PLGiftEntity(
+    @PrimaryKey(autoGenerate = false) val id: String,
+    val name: String,
+    @ColumnInfo(name = "expires_on") val expiresOn: Long,
+    val redeemed: Boolean
+)
