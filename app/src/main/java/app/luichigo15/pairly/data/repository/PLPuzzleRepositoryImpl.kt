@@ -37,8 +37,9 @@ class PLPuzzleRepositoryImpl @Inject constructor(
             val response = puzzleApi.uploadImage(filePart, presetPart, fileNamePart)
             if(response.url.isEmpty()) return@withContext L15Result.Error(PLErrorCodes.ERROR_UPLOADING_IMAGE)
 
-            firebase.createPuzzle(response.toDomain(fileName))
-            L15Result.Success(true)
+            if (firebase.createPuzzle(response.toDomain(fileName)))
+                L15Result.Success(true)
+            else L15Result.Error(PLErrorCodes.ERROR_UPLOADING_IMAGE)
         } catch (e: Exception) {
             L15Logger.e(TAG, "uploadImage", "Error uploading image ${e.message}")
             L15Result.Error(PLErrorCodes.ERROR_UPLOADING_IMAGE)

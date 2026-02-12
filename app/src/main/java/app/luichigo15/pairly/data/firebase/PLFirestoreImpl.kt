@@ -17,8 +17,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
@@ -44,64 +42,42 @@ class PLFirestoreImpl @Inject constructor(
         }
     }
 
-    override fun createUser(user: PLUser): Flow<L15Result<Boolean, PLErrorCodes>> = flow {
-        emit(L15Result.Loading)
+    override suspend fun createUser(user: PLUser): L15Result<Boolean, PLErrorCodes> {
         if (user.role == PLRoleConst.GIRL_ROLE && !checkUuidValid(user.uuid)) {
-            emit(L15Result.Error(PLErrorCodes.UUID_DOES_NOT_EXIST))
-            return@flow
+            return L15Result.Error(PLErrorCodes.UUID_DOES_NOT_EXIST)
         }
 
-        val result = suspendCancellableCoroutine { cont ->
+        return try {
             firestore.collection(PLFirebaseConst.USERS_NODE)
                 .document(user.uuid)
                 .collection(PLFirebaseConst.ROLES_NODE)
                 .document(user.role)
-                .set(user)
-                .addOnSuccessListener {
-                    cont.resume(
-                        L15Result.Success(true),
-                        onCancellation = { _, _, _ -> }
-                    )
-                }
-                .addOnFailureListener {
-                    L15Logger.e(TAG, "createUser", "Error creating user $it", it)
-                    cont.resume(
-                        L15Result.Error(PLErrorCodes.ERROR_CREATING_USER),
-                        onCancellation = { _, _, _ -> }
-                    )
-                }
-        }
+                .set(user).await()
 
-        emit(result)
+            L15Result.Success(true)
+        } catch (e: Exception) {
+            L15Logger.e(TAG, "createUser", "Error creating user $e", e)
+            L15Result.Error(PLErrorCodes.ERROR_CREATING_USER)
+        }
     }
 
-    override fun createGift(gift: PLGift): Flow<L15Result<Boolean, PLErrorCodes>> = flow {
-        emit(L15Result.Loading)
-        val result = suspendCancellableCoroutine { cont ->
+    override suspend fun createGift(gift: PLGift): L15Result<Boolean, PLErrorCodes> {
+        return try {
             firestore.collection(PLFirebaseConst.USERS_NODE)
                 .document(userDataProvider.pairCode.value)
                 .collection(PLFirebaseConst.GIFTS_NODE)
                 .document(gift.id)
                 .set(gift)
-                .addOnSuccessListener {
-                    cont.resume(
-                        L15Result.Success(true),
-                        onCancellation = { _, _, _ -> }
-                    )
-                }
-                .addOnFailureListener {
-                    L15Logger.e(TAG, "createGift", "Error creating gift $it", it)
-                    cont.resume(
-                        L15Result.Error(PLErrorCodes.ERROR_CREATING_GIFT),
-                        onCancellation = { _, _, _ -> }
-                    )
-                }
-        }
+                .await()
 
-        emit(result)
+            L15Result.Success(true)
+        } catch (e: Exception) {
+            L15Logger.e(TAG, "createGift", "Error creating gift $e", e)
+            return L15Result.Error(PLErrorCodes.ERROR_CREATING_GIFT)
+        }
     }
 
-    override fun listenToGifts(): Flow<List<PLGiftEntity>> = callbackFlow {
+    override fun getGifts(): Flow<List<PLGiftEntity>> = callbackFlow {
         val listener = firestore.collection(PLFirebaseConst.USERS_NODE)
             .document(userDataProvider.pairCode.value)
             .collection(PLFirebaseConst.GIFTS_NODE)
@@ -122,13 +98,17 @@ class PLFirestoreImpl @Inject constructor(
         }
     }
 
-    override suspend fun redeemGift(id: String) {
+    override suspend fun redeemGift(id: String) = try {
         firestore.collection(PLFirebaseConst.USERS_NODE)
             .document(userDataProvider.pairCode.value)
             .collection(PLFirebaseConst.GIFTS_NODE)
             .document(id)
             .update(PLFirebaseConst.REDEEMED_FIELD, true)
             .await()
+        true
+    } catch (e: Exception) {
+        L15Logger.e(TAG, "redeemGift", "Error redeeming gift $e", e)
+        false
     }
 
     override suspend fun updateNotificationsToken(token: String) {
@@ -140,20 +120,28 @@ class PLFirestoreImpl @Inject constructor(
             userDataProvider.role.first { it.isNotBlank() }
         } ?: return
 
-        firestore.collection(PLFirebaseConst.USERS_NODE)
-            .document(pairCode)
-            .collection(PLFirebaseConst.ROLES_NODE)
-            .document(role)
-            .update(PLFirebaseConst.NOTIFICATIONS_TOKEN_FIELD, token)
-            .await()
+        try {
+            firestore.collection(PLFirebaseConst.USERS_NODE)
+                .document(pairCode)
+                .collection(PLFirebaseConst.ROLES_NODE)
+                .document(role)
+                .update(PLFirebaseConst.NOTIFICATIONS_TOKEN_FIELD, token)
+                .await()
+        } catch (e: Exception) {
+            L15Logger.e(TAG, "updateNotificationsToken", "Error updating notifications token $e")
+        }
     }
 
-    override suspend fun createPuzzle(puzzle: PLPuzzle) {
+    override suspend fun createPuzzle(puzzle: PLPuzzle): Boolean = try {
         firestore.collection(PLFirebaseConst.USERS_NODE)
             .document(userDataProvider.pairCode.value)
             .collection(PLFirebaseConst.PUZZLES_NODE)
             .document(puzzle.id)
             .set(puzzle)
             .await()
+        true
+    } catch (e: Exception) {
+        L15Logger.e(TAG, "createPuzzle", "Error creating puzzle $e", e)
+        false
     }
 }

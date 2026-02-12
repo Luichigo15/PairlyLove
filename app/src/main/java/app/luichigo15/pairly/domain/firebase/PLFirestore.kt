@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.Flow
 
 interface PLFirestore {
 
-    fun createUser(user: PLUser): Flow<L15Result<Boolean, PLErrorCodes>>
+    suspend fun createUser(user: PLUser): L15Result<Boolean, PLErrorCodes>
 
-    fun createGift(gift: PLGift): Flow<L15Result<Boolean, PLErrorCodes>>
+    suspend fun createGift(gift: PLGift): L15Result<Boolean, PLErrorCodes>
 
-    fun listenToGifts(): Flow<List<PLGiftEntity>>
+    fun getGifts(): Flow<List<PLGiftEntity>>
 
-    suspend fun redeemGift(id: String)
+    suspend fun redeemGift(id: String): Boolean
 
     suspend fun updateNotificationsToken(token: String)
 
-    suspend fun createPuzzle(puzzle: PLPuzzle)
+    suspend fun createPuzzle(puzzle: PLPuzzle): Boolean
 }

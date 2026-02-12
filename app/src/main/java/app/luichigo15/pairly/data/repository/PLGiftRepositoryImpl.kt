@@ -20,11 +20,13 @@ class PLGiftRepositoryImpl @Inject constructor(
 ) : PLGiftRepository {
     private val TAG = PLGiftRepositoryImpl::class.java.simpleName
 
-    override fun createGift(gift: PLGift): Flow<L15Result<Boolean, PLErrorCodes>> =
-        firestore.createGift(gift)
+    override suspend fun createGift(gift: PLGift): L15Result<Boolean, PLErrorCodes> =
+        withContext(Dispatchers.IO) {
+            firestore.createGift(gift)
+        }
 
     override fun syncGifts(): Flow<Unit> =
-        firestore.listenToGifts()
+        firestore.getGifts()
             .onEach { gifts ->
                 giftDao.upsertAll(gifts)
             }.map { }
@@ -35,7 +37,6 @@ class PLGiftRepositoryImpl @Inject constructor(
     }
 
     override suspend fun redeemGift(id: String) = withContext(Dispatchers.IO) {
-        giftDao.redeemGift(id)
-        firestore.redeemGift(id)
+        if (firestore.redeemGift(id)) giftDao.redeemGift(id)
     }
 }

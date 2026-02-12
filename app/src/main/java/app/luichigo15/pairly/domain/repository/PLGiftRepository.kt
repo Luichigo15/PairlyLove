@@ -6,7 +6,7 @@ import app.luichigo15.pairly.domain.model.PLGift
 import kotlinx.coroutines.flow.Flow
 
 interface PLGiftRepository {
-    fun createGift(gift: PLGift): Flow<L15Result<Boolean, PLErrorCodes>>
+    suspend fun createGift(gift: PLGift): L15Result<Boolean, PLErrorCodes>
     fun syncGifts(): Flow<Unit>
     fun observeGifts(): Flow<List<PLGift>>
     suspend fun redeemGift(id: String)
