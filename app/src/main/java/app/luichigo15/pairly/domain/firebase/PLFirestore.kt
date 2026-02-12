@@ -4,6 +4,7 @@ import app.luichigo15.common.utils.L15Result
 import app.luichigo15.pairly.common.PLErrorCodes
 import app.luichigo15.pairly.data.database.model.PLGiftEntity
 import app.luichigo15.pairly.domain.model.PLGift
+import app.luichigo15.pairly.domain.model.PLPuzzle
 import app.luichigo15.pairly.domain.model.PLUser
 import kotlinx.coroutines.flow.Flow
 
@@ -18,4 +19,6 @@ interface PLFirestore {
     suspend fun redeemGift(id: String)
 
     suspend fun updateNotificationsToken(token: String)
+
+    suspend fun createPuzzle(puzzle: PLPuzzle)
 }

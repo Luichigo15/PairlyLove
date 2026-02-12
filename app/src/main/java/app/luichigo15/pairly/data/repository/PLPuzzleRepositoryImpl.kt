@@ -4,6 +4,7 @@ import app.luichigo15.common.utils.L15Logger
 import app.luichigo15.common.utils.L15Result
 import app.luichigo15.pairly.common.PLErrorCodes
 import app.luichigo15.pairly.data.api.service.PLPuzzleApi
+import app.luichigo15.pairly.domain.firebase.PLFirestore
 import app.luichigo15.pairly.domain.repository.PLPuzzleRepository
 import app.luichigo15.pairly.environment.PLEnvironment
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,8 @@ import java.io.File
 import javax.inject.Inject
 
 class PLPuzzleRepositoryImpl @Inject constructor(
-    private val puzzleApi: PLPuzzleApi
+    private val puzzleApi: PLPuzzleApi,
+    private val firebase: PLFirestore
 ) : PLPuzzleRepository {
     private val TAG = PLPuzzleRepositoryImpl::class.java.simpleName
 
@@ -35,6 +37,7 @@ class PLPuzzleRepositoryImpl @Inject constructor(
             val response = puzzleApi.uploadImage(filePart, presetPart, fileNamePart)
             if(response.url.isEmpty()) return@withContext L15Result.Error(PLErrorCodes.ERROR_UPLOADING_IMAGE)
 
+            firebase.createPuzzle(response.toDomain(fileName))
             L15Result.Success(true)
         } catch (e: Exception) {
             L15Logger.e(TAG, "uploadImage", "Error uploading image ${e.message}")

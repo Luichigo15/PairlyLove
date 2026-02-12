@@ -8,6 +8,7 @@ import app.luichigo15.pairly.common.PLRoleConst
 import app.luichigo15.pairly.data.database.model.PLGiftEntity
 import app.luichigo15.pairly.domain.firebase.PLFirestore
 import app.luichigo15.pairly.domain.model.PLGift
+import app.luichigo15.pairly.domain.model.PLPuzzle
 import app.luichigo15.pairly.domain.model.PLUser
 import app.luichigo15.pairly.domain.provider.PLUserDataProvider
 import com.google.firebase.Firebase
@@ -144,6 +145,15 @@ class PLFirestoreImpl @Inject constructor(
             .collection(PLFirebaseConst.ROLES_NODE)
             .document(role)
             .update(PLFirebaseConst.NOTIFICATIONS_TOKEN_FIELD, token)
+            .await()
+    }
+
+    override suspend fun createPuzzle(puzzle: PLPuzzle) {
+        firestore.collection(PLFirebaseConst.USERS_NODE)
+            .document(userDataProvider.pairCode.value)
+            .collection(PLFirebaseConst.PUZZLES_NODE)
+            .document(puzzle.id)
+            .set(puzzle)
             .await()
     }
 }

@@ -12,12 +12,14 @@ import app.luichigo15.pairly.data.firebase.PLPushNotificationsImpl
 import app.luichigo15.pairly.data.preferences.PLPreferencesImpl
 import app.luichigo15.pairly.data.provider.PLUserDataProviderImpl
 import app.luichigo15.pairly.data.repository.PLGiftRepositoryImpl
+import app.luichigo15.pairly.data.repository.PLPuzzleRepositoryImpl
 import app.luichigo15.pairly.data.repository.PLUserRepositoryImpl
 import app.luichigo15.pairly.domain.firebase.PLFirestore
 import app.luichigo15.pairly.domain.firebase.PLPushNotifications
 import app.luichigo15.pairly.domain.preferences.PLPreferences
 import app.luichigo15.pairly.domain.provider.PLUserDataProvider
 import app.luichigo15.pairly.domain.repository.PLGiftRepository
+import app.luichigo15.pairly.domain.repository.PLPuzzleRepository
 import app.luichigo15.pairly.domain.repository.PLUserRepository
 import app.luichigo15.pairly.environment.PLEnvironment
 import dagger.Binds
@@ -71,6 +73,9 @@ interface PLRepositoryModule {
 
     @Binds
     fun providesGiftRepository(giftRepository: PLGiftRepositoryImpl): PLGiftRepository
+
+    @Binds
+    fun providesPuzzleRepository(puzzleRepository: PLPuzzleRepositoryImpl): PLPuzzleRepository
 }
 
 @Module
