@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import app.luichigo15.pairly.ui.home.boy.screen.gift.PLBoyGiftScreen
+import app.luichigo15.pairly.ui.home.boy.screen.puzzle.PLBoyPuzzleScreen
 import app.luichigo15.pairly.ui.home.common.home.PLCommonHome
 import app.luichigo15.pairly.ui.home.navigation.PLRoute
 
@@ -41,6 +42,10 @@ fun PLBoyHomeScreen(modifier: Modifier = Modifier){
             when (key) {
                 PLRoute.Home -> NavEntry(key) {
                     PLCommonHome(onNavigate = onNavigate)
+                }
+
+                PLRoute.Puzzle -> NavEntry(key){
+                    PLBoyPuzzleScreen(onBack = onBack)
                 }
 
                 else -> NavEntry(key) {
