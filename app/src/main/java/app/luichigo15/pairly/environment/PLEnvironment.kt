@@ -43,4 +43,8 @@ object PLEnvironment : L15Environment() {
         DEV_ENV -> L15EnvironmentKey.DEV
         else -> L15EnvironmentKey.PROD
     }
+
+    external fun getPuzzleUrl(): String
+
+    external fun getPuzzlePreset(): String
 }

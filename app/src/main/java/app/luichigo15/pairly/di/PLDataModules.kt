@@ -2,6 +2,9 @@ package app.luichigo15.pairly.di
 
 import android.content.Context
 import app.luichigo15.common.database.L15DatabaseProvider
+import app.luichigo15.common.environment.L15EnvironmentKey
+import app.luichigo15.common.network.L15ApiClientBuilder
+import app.luichigo15.pairly.data.api.service.PLPuzzleApi
 import app.luichigo15.pairly.data.database.PLDatabase
 import app.luichigo15.pairly.data.database.dao.PLGiftDao
 import app.luichigo15.pairly.data.firebase.PLFirestoreImpl
@@ -21,6 +24,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import jakarta.inject.Singleton
@@ -60,7 +64,7 @@ interface PLFirebaseModule {
 }
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 interface PLRepositoryModule {
     @Binds
     fun providesUserRepository(userRepository: PLUserRepositoryImpl): PLUserRepository
@@ -76,4 +80,15 @@ interface PLUserDataModule {
     @Binds
     @Singleton
     fun providesUserDataProvider(userDataProvider: PLUserDataProviderImpl): PLUserDataProvider
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object PLApiModule {
+
+    @Provides
+    fun providesPuzzleApi(): PLPuzzleApi = L15ApiClientBuilder(PLPuzzleApi::class.java)
+        .setBaseUrl(PLEnvironment.getPuzzleUrl())
+        .setActivateLogging(PLEnvironment.getEnvironment() == L15EnvironmentKey.DEV)
+        .build()
 }
