@@ -24,7 +24,7 @@ import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import app.luichigo15.pairly.R
-import app.luichigo15.pairly.utils.extensions.PLDateUtils
+import app.luichigo15.pairly.utils.helpers.PLDateUtils
 import app.luichigo15.common.R as L15R
 
 @Composable

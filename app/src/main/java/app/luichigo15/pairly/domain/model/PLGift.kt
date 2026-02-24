@@ -10,11 +10,8 @@ data class PLGift(
     val expiresOn: Long = 0L,
     val redeemed: Boolean = false
 ) {
-    fun setName(name: String) = copy(name = name)
 
-    fun setExpiresOn(expiresOn: Long) = copy(expiresOn = expiresOn)
-
-    fun getValid() = name.isNotEmpty() && expiresOn != 0L
+    fun checkValid() = name.isNotEmpty() && expiresOn != 0L
 
     fun checkExpired() = System.currentTimeMillis() > expiresOn || redeemed
 }

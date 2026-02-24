@@ -143,7 +143,7 @@ fun PLRoleScreen(
                 })
         PLRoleContinueButton(
             isVisible = showSelection,
-            enabled = roleData.isValid,
+            enabled = roleData.checkValid(),
             modifier = Modifier
                 .fillMaxWidth()
                 .constrainAs(continueBtn) {

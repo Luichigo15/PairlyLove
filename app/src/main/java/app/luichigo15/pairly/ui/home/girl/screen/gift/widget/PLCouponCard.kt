@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.sp
 import app.luichigo15.pairly.R
 import app.luichigo15.pairly.domain.model.PLGift
 import app.luichigo15.pairly.ui.theme.PLTheme
-import app.luichigo15.pairly.utils.extensions.PLDateUtils
+import app.luichigo15.pairly.utils.helpers.PLDateUtils
 import app.luichigo15.pairly.utils.extensions.rotateVertically
 
 @Composable

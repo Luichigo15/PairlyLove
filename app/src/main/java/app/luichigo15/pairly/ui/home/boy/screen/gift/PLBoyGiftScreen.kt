@@ -55,7 +55,7 @@ fun PLBoyGiftScreen(
             Button(
                 onClick = { giftViewModel.onEvent(PLBoyGiftEvent.Submit) },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = giftData.getValid()
+                enabled = giftData.checkValid()
             ) {
                 Text(stringResource(R.string.pl_continue))
             }

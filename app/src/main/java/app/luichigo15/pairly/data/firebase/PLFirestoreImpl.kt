@@ -28,7 +28,6 @@ class PLFirestoreImpl @Inject constructor(
 
     private val firestore by lazy { Firebase.firestore }
 
-
     private suspend fun checkUuidValid(uuid: String): Boolean {
         return try {
             firestore.collection(PLFirebaseConst.USERS_NODE)

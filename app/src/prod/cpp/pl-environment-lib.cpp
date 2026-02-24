@@ -6,7 +6,7 @@
 #define PUZZLE_PRESET "test-android"
 
 std::string getEnvironment(){
-    return "DEV";
+    return "PROD";
 }
 
 extern "C"

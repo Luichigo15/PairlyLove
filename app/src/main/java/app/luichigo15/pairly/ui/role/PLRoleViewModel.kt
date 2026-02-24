@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.luichigo15.common.utils.L15Result
 import app.luichigo15.pairly.common.PLErrorCodes
+import app.luichigo15.pairly.common.PLRoleConst
 import app.luichigo15.pairly.domain.model.PLUser
 import app.luichigo15.pairly.domain.usecase.preferences.PLPairCodeUseCase
 import app.luichigo15.pairly.domain.usecase.preferences.PLRoleUseCase
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,9 +33,16 @@ class PLRoleViewModel @Inject constructor(
 
     fun onEvent(event: PLRoleEvent) {
         when (event) {
-            is PLRoleEvent.RoleSelected -> _roleData.update { it.setRole(event.role) }
-            PLRoleEvent.ClearRole -> _roleData.update { it.clear() }
-            is PLRoleEvent.CodeChanged -> _roleData.update { it.setCode(event.code) }
+            is PLRoleEvent.RoleSelected -> _roleData.update {
+                it.copy(
+                    role = event.role,
+                    uuid = if (event.role == PLRoleConst.BOY_ROLE)
+                        UUID.randomUUID().toString().substring(0, 8)
+                    else ""
+                )
+            }
+            PLRoleEvent.ClearRole -> _roleData.update { PLUser() }
+            is PLRoleEvent.CodeChanged -> _roleData.update { it.copy(uuid = event.code) }
             PLRoleEvent.Submit -> createRole()
             PLRoleEvent.ResetState -> _uiState.update { L15Result.Start }
         }

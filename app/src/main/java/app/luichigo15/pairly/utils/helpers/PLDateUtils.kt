@@ -1,4 +1,4 @@
-package app.luichigo15.pairly.utils.extensions
+package app.luichigo15.pairly.utils.helpers
 
 import java.text.SimpleDateFormat
 import java.util.Date
