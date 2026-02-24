@@ -76,13 +76,13 @@ class PLFirestoreImpl @Inject constructor(
         }
     }
 
-    override fun getGifts(): Flow<List<PLGiftEntity>> = callbackFlow {
+    override fun observeGifts(): Flow<List<PLGiftEntity>> = callbackFlow {
         val listener = firestore.collection(PLFirebaseConst.USERS_NODE)
             .document(userDataProvider.pairCode.value)
             .collection(PLFirebaseConst.GIFTS_NODE)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
-                    L15Logger.e(TAG, "listenToGifts", "Error listening to gifts $error")
+                    L15Logger.e(TAG, "observeGifts", "Error listening to gifts $error")
                     close(error)
                     return@addSnapshotListener
                 }
@@ -142,5 +142,26 @@ class PLFirestoreImpl @Inject constructor(
     } catch (e: Exception) {
         L15Logger.e(TAG, "createPuzzle", "Error creating puzzle $e", e)
         false
+    }
+
+    override fun observePuzzles(): Flow<List<PLPuzzle>> = callbackFlow {
+        val listener = firestore.collection(PLFirebaseConst.USERS_NODE)
+            .document(userDataProvider.pairCode.value)
+            .collection(PLFirebaseConst.PUZZLES_NODE)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    L15Logger.e(TAG, "observePuzzles", "Error listening to puzzles $error")
+                    close(error)
+                    return@addSnapshotListener
+                }
+
+                val puzzles = snapshot?.documents?.mapNotNull {
+                    it.toObject(PLPuzzle::class.java)
+                }
+                trySend(puzzles ?: emptyList())
+            }
+        awaitClose {
+            listener.remove()
+        }
     }
 }

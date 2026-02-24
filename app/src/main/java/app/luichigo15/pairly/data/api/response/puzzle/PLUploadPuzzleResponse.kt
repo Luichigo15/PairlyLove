@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class PLUploadPuzzleResponse(
     @SerializedName("public_id") val publicId: String,
-    @SerializedName("url") val url: String,
+    @SerializedName("secure_url") val url: String,
 ) {
     fun toDomain(name: String) = PLPuzzle(
         id = publicId,

@@ -24,6 +24,7 @@ import app.luichigo15.pairly.ui.common.PLEmptyScreen
 import app.luichigo15.pairly.ui.common.PLLoadingDialog
 import app.luichigo15.pairly.ui.home.boy.screen.puzzle.model.PLBoyPuzzleEvent
 import app.luichigo15.pairly.ui.home.boy.screen.puzzle.widget.PLPuzzleBottomSheet
+import app.luichigo15.pairly.ui.home.boy.screen.puzzle.widget.PlPuzzleGrid
 import app.luichigo15.pairly.ui.home.common.PLTopBar
 import app.luichigo15.pairly.ui.theme.PLTheme
 
@@ -36,11 +37,13 @@ fun PLBoyPuzzleScreen(
     val newPuzzle by puzzleViewModel.puzzleData.collectAsStateWithLifecycle()
     val uiState by puzzleViewModel.uiState.collectAsStateWithLifecycle()
     var showPuzzleBottomSheet by remember { mutableStateOf(false) }
+    val puzzles by puzzleViewModel.puzzles.collectAsStateWithLifecycle()
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             PLTopBar(title = R.string.pl_puzzles, onBackClick = onBack)
-            PLEmptyScreen(message = R.string.pl_no_images_added, title = R.string.pl_puzzles)
+            if (puzzles.isNotEmpty()) PlPuzzleGrid(puzzles = puzzles)
+            else PLEmptyScreen(message = R.string.pl_no_images_added, title = R.string.pl_puzzles)
         }
         FloatingActionButton(
             onClick = {

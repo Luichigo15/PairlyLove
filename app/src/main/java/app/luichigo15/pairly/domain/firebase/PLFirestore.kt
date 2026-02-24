@@ -14,11 +14,13 @@ interface PLFirestore {
 
     suspend fun createGift(gift: PLGift): L15Result<Boolean, PLErrorCodes>
 
-    fun getGifts(): Flow<List<PLGiftEntity>>
+    fun observeGifts(): Flow<List<PLGiftEntity>>
 
     suspend fun redeemGift(id: String): Boolean
 
     suspend fun updateNotificationsToken(token: String)
 
     suspend fun createPuzzle(puzzle: PLPuzzle): Boolean
+
+    fun observePuzzles(): Flow<List<PLPuzzle>>
 }

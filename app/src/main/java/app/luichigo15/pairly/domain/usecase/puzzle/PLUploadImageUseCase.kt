@@ -6,7 +6,6 @@ import app.luichigo15.pairly.domain.repository.PLPuzzleRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.RequestBody
-import java.io.File
 import javax.inject.Inject
 
 class PLUploadImageUseCase @Inject constructor(

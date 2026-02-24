@@ -26,7 +26,7 @@ class PLGiftRepositoryImpl @Inject constructor(
         }
 
     override fun syncGifts(): Flow<Unit> =
-        firestore.getGifts()
+        firestore.observeGifts()
             .onEach { gifts ->
                 giftDao.upsertAll(gifts)
             }.map { }

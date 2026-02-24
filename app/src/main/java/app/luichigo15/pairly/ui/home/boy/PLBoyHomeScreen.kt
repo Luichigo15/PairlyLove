@@ -2,8 +2,9 @@ package app.luichigo15.pairly.ui.home.boy
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,7 +35,8 @@ fun PLBoyHomeScreen(modifier: Modifier = Modifier){
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
-            .safeContentPadding()
+            .navigationBarsPadding()
+            .statusBarsPadding()
             .padding(10.dp),
         backStack = backStack,
         onBack = onBack,
