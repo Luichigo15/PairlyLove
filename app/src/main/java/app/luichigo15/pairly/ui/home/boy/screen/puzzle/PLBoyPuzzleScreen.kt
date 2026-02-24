@@ -42,7 +42,9 @@ fun PLBoyPuzzleScreen(
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             PLTopBar(title = R.string.pl_puzzles, onBackClick = onBack)
-            if (puzzles.isNotEmpty()) PlPuzzleGrid(puzzles = puzzles)
+            if (puzzles.isNotEmpty()) PlPuzzleGrid(puzzles = puzzles, onDelete = {
+                puzzleViewModel.onEvent(PLBoyPuzzleEvent.Delete(it))
+            })
             else PLEmptyScreen(message = R.string.pl_no_images_added, title = R.string.pl_puzzles)
         }
         FloatingActionButton(

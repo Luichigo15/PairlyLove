@@ -164,4 +164,17 @@ class PLFirestoreImpl @Inject constructor(
             listener.remove()
         }
     }
+
+    override suspend fun deletePuzzle(id: String): Boolean = try {
+        firestore.collection(PLFirebaseConst.USERS_NODE)
+            .document(userDataProvider.pairCode.value)
+            .collection(PLFirebaseConst.PUZZLES_NODE)
+            .document(id)
+            .delete()
+            .await()
+        true
+    } catch (e: Exception) {
+        L15Logger.e(TAG, "deletePuzzle", "Error deleting puzzle $e", e)
+        false
+    }
 }

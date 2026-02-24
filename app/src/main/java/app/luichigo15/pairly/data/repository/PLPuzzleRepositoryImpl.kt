@@ -36,7 +36,7 @@ class PLPuzzleRepositoryImpl @Inject constructor(
                 .toRequestBody("text/plain".toMediaType())
 
             val response = puzzleApi.uploadImage(filePart, presetPart, fileNamePart)
-            if(response.url.isEmpty()) return@withContext L15Result.Error(PLErrorCodes.ERROR_UPLOADING_IMAGE)
+            if (response.url.isEmpty()) return@withContext L15Result.Error(PLErrorCodes.ERROR_UPLOADING_IMAGE)
 
             if (firestore.createPuzzle(response.toDomain(fileName))) L15Result.Success(true)
             else L15Result.Error(PLErrorCodes.ERROR_UPLOADING_IMAGE)
@@ -48,4 +48,8 @@ class PLPuzzleRepositoryImpl @Inject constructor(
 
     override fun observePuzzles(): Flow<List<PLPuzzle>> =
         firestore.observePuzzles().flowOn(Dispatchers.IO)
+
+    override suspend fun deletePuzzle(id: String): Boolean = withContext(Dispatchers.IO) {
+        firestore.deletePuzzle(id)
+    }
 }

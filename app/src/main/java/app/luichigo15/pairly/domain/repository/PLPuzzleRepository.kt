@@ -9,4 +9,5 @@ import okhttp3.RequestBody
 interface PLPuzzleRepository {
     suspend fun uploadImage(file: RequestBody, fileName: String): L15Result<Boolean, PLErrorCodes>
     fun observePuzzles(): Flow<List<PLPuzzle>>
+    suspend fun deletePuzzle(id: String): Boolean
 }

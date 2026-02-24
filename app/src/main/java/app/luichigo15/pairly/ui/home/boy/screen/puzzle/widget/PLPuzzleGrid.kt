@@ -30,7 +30,11 @@ import app.luichigo15.pairly.ui.theme.PLTheme
 import coil.compose.AsyncImage
 
 @Composable
-fun PlPuzzleGrid(puzzles: List<PLPuzzle>, modifier: Modifier = Modifier) {
+fun PlPuzzleGrid(
+    puzzles: List<PLPuzzle>,
+    onDelete: (id: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = modifier,
@@ -38,13 +42,17 @@ fun PlPuzzleGrid(puzzles: List<PLPuzzle>, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(items = puzzles, key = { it.id }) { puzzle ->
-            PLPuzzleItem(puzzle = puzzle)
+            PLPuzzleItem(puzzle = puzzle, onDelete = onDelete)
         }
     }
 }
 
 @Composable
-private fun PLPuzzleItem(puzzle: PLPuzzle, modifier: Modifier = Modifier) {
+private fun PLPuzzleItem(
+    puzzle: PLPuzzle,
+    onDelete: (id: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val gradientStops = arrayOf(
         0f to Color.Transparent,
         1f to Color.Black.copy(alpha = 0.65f)
@@ -68,7 +76,7 @@ private fun PLPuzzleItem(puzzle: PLPuzzle, modifier: Modifier = Modifier) {
                     .background(brush = Brush.verticalGradient(colorStops = gradientStops))
             )
             OutlinedIconButton(
-                onClick = {},
+                onClick = { onDelete(puzzle.id) },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(5.dp)
@@ -91,6 +99,6 @@ private fun PLPuzzleItem(puzzle: PLPuzzle, modifier: Modifier = Modifier) {
 @Composable
 private fun PlPuzzleGridPreview() {
     PLTheme(darkTheme = true) {
-        PlPuzzleGrid(listOf())
+        PlPuzzleGrid(listOf(), {})
     }
 }

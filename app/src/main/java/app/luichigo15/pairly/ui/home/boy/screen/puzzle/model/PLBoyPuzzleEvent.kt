@@ -9,4 +9,5 @@ sealed class PLBoyPuzzleEvent {
     data class Submit(val context: Context) : PLBoyPuzzleEvent()
     data object ClearData : PLBoyPuzzleEvent()
     data object ClearUiState : PLBoyPuzzleEvent()
+    data class Delete(val id: String) : PLBoyPuzzleEvent()
 }

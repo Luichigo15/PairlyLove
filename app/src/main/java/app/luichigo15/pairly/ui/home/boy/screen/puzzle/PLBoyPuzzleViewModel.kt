@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.luichigo15.common.utils.L15Result
 import app.luichigo15.pairly.common.PLErrorCodes
+import app.luichigo15.pairly.domain.usecase.puzzle.PLDeletePuzzleUseCase
 import app.luichigo15.pairly.domain.usecase.puzzle.PLObservePuzzlesUseCase
 import app.luichigo15.pairly.domain.usecase.puzzle.PLUploadImageUseCase
 import app.luichigo15.pairly.ui.home.boy.screen.puzzle.model.PLBoyPuzzleEvent
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PLBoyPuzzleViewModel @Inject constructor(
     private val uploadImageUseCase: PLUploadImageUseCase,
-    observePuzzlesUseCase: PLObservePuzzlesUseCase
+    observePuzzlesUseCase: PLObservePuzzlesUseCase,
+    private val deletePuzzleUseCase: PLDeletePuzzleUseCase
 ) : ViewModel() {
 
     private val _puzzleData = MutableStateFlow(PLUploadPuzzle())
@@ -44,6 +46,7 @@ class PLBoyPuzzleViewModel @Inject constructor(
             is PLBoyPuzzleEvent.UriChanged -> _puzzleData.update { it.copy(uri = event.uri) }
             PLBoyPuzzleEvent.ClearData -> _puzzleData.update { PLUploadPuzzle() }
             PLBoyPuzzleEvent.ClearUiState -> _uiState.update { L15Result.Start }
+            is PLBoyPuzzleEvent.Delete -> delete(event.id)
         }
     }
 
@@ -53,6 +56,14 @@ class PLBoyPuzzleViewModel @Inject constructor(
                 _puzzleData.value.uri!!.asRequestBody(context, "image/*"),
                 _puzzleData.value.name.trim().replace(" ", "_")
             ).collect { state ->
+                _uiState.update { state }
+            }
+        }
+    }
+
+    private fun delete(id: String) {
+        viewModelScope.launch {
+            deletePuzzleUseCase(id).collect { state ->
                 _uiState.update { state }
             }
         }

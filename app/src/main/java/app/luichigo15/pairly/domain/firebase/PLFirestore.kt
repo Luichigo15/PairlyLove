@@ -23,4 +23,6 @@ interface PLFirestore {
     suspend fun createPuzzle(puzzle: PLPuzzle): Boolean
 
     fun observePuzzles(): Flow<List<PLPuzzle>>
+
+    suspend fun deletePuzzle(id: String): Boolean
 }

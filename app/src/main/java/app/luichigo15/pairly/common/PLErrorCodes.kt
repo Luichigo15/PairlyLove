@@ -8,5 +8,7 @@ enum class PLErrorCodes(@param:StringRes val message: Int) {
     ERROR_CREATING_USER(R.string.pl_error_creating_user),
     ERROR_CREATING_GIFT(R.string.pl_error_creating_gift),
     ERROR_UPLOADING_IMAGE(R.string.pl_error_uploading_image),
+    ERROR_DELETING_PUZZLE(R.string.pl_error_deleting_puzzle)
+
 
 }
