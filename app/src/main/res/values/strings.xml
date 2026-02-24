@@ -39,4 +39,7 @@
 <!--  Puzzle  -->
     <string name="pl_no_images_added">You have not added any images yet</string>
     <string name="pl_error_uploading_image">Error uploading image</string>
+    <string name="pl_puzzle_name">Puzzle name:</string>
+    <string name="pl_select_image">Select image</string>
+    <string name="pl_upload">Upload</string>
 </resources>

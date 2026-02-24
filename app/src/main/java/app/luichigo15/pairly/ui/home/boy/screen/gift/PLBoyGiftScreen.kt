@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CardGiftcard
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -22,9 +24,9 @@ import app.luichigo15.common.ui.common.L15StateHandler
 import app.luichigo15.pairly.R
 import app.luichigo15.pairly.ui.common.PLAlertDialog
 import app.luichigo15.pairly.ui.common.PLLoadingDialog
+import app.luichigo15.pairly.ui.home.boy.common.PLBoyCommonTextField
 import app.luichigo15.pairly.ui.home.boy.screen.gift.model.PLBoyGiftEvent
 import app.luichigo15.pairly.ui.home.boy.screen.gift.widget.PLDatePickerField
-import app.luichigo15.pairly.ui.home.boy.screen.gift.widget.PLGiftNameField
 import app.luichigo15.pairly.ui.theme.PLTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,9 +48,9 @@ fun PLBoyGiftScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(stringResource(R.string.pl_gifts), style = MaterialTheme.typography.headlineLarge)
-            PLGiftNameField(modifier = Modifier.fillMaxWidth(), onValueChange = {
+            PLBoyCommonTextField(modifier = Modifier.fillMaxWidth(), onValueChange = {
                 giftViewModel.onEvent(PLBoyGiftEvent.NameChanged(it))
-            })
+            }, label = R.string.pl_gift_name, icon = Icons.Outlined.CardGiftcard)
             PLDatePickerField(modifier = Modifier.fillMaxWidth(), onDateSelected = {
                 giftViewModel.onEvent(PLBoyGiftEvent.DateChanged(it ?: 0L))
             })

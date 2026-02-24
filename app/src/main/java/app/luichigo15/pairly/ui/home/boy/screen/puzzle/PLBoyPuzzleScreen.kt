@@ -8,11 +8,16 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import app.luichigo15.pairly.R
 import app.luichigo15.pairly.ui.common.PLEmptyScreen
+import app.luichigo15.pairly.ui.home.boy.screen.puzzle.widget.PLPuzzleBottomSheet
 import app.luichigo15.pairly.ui.home.common.PLTopBar
 import app.luichigo15.pairly.ui.theme.PLTheme
 
@@ -21,18 +26,22 @@ fun PLBoyPuzzleScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var showPuzzleBottomSheet by remember { mutableStateOf(false) }
+
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             PLTopBar(title = R.string.pl_puzzles, onBackClick = onBack)
             PLEmptyScreen(message = R.string.pl_no_images_added, title = R.string.pl_puzzles)
         }
         FloatingActionButton(
-            onClick = {},
+            onClick = { showPuzzleBottomSheet = true },
             modifier = Modifier.align(Alignment.BottomEnd)
         ) {
             Icon(imageVector = Icons.Default.Add, contentDescription = null)
         }
     }
+
+    if (showPuzzleBottomSheet) PLPuzzleBottomSheet(onDismiss = { showPuzzleBottomSheet = false })
 }
 
 @Preview(showBackground = true)
