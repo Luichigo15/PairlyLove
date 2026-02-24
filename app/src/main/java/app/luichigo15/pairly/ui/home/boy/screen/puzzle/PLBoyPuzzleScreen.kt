@@ -15,8 +15,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.luichigo15.common.ui.common.L15StateHandler
 import app.luichigo15.pairly.R
+import app.luichigo15.pairly.ui.common.PLAlertDialog
 import app.luichigo15.pairly.ui.common.PLEmptyScreen
+import app.luichigo15.pairly.ui.common.PLLoadingDialog
+import app.luichigo15.pairly.ui.home.boy.screen.puzzle.model.PLBoyPuzzleEvent
 import app.luichigo15.pairly.ui.home.boy.screen.puzzle.widget.PLPuzzleBottomSheet
 import app.luichigo15.pairly.ui.home.common.PLTopBar
 import app.luichigo15.pairly.ui.theme.PLTheme
@@ -24,8 +30,11 @@ import app.luichigo15.pairly.ui.theme.PLTheme
 @Composable
 fun PLBoyPuzzleScreen(
     onBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    puzzleViewModel: PLBoyPuzzleViewModel = hiltViewModel()
 ) {
+    val newPuzzle by puzzleViewModel.puzzleData.collectAsStateWithLifecycle()
+    val uiState by puzzleViewModel.uiState.collectAsStateWithLifecycle()
     var showPuzzleBottomSheet by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -34,14 +43,32 @@ fun PLBoyPuzzleScreen(
             PLEmptyScreen(message = R.string.pl_no_images_added, title = R.string.pl_puzzles)
         }
         FloatingActionButton(
-            onClick = { showPuzzleBottomSheet = true },
+            onClick = {
+                puzzleViewModel.onEvent(PLBoyPuzzleEvent.ClearData)
+                showPuzzleBottomSheet = true
+            },
             modifier = Modifier.align(Alignment.BottomEnd)
         ) {
             Icon(imageVector = Icons.Default.Add, contentDescription = null)
         }
     }
 
-    if (showPuzzleBottomSheet) PLPuzzleBottomSheet(onDismiss = { showPuzzleBottomSheet = false })
+    if (showPuzzleBottomSheet) PLPuzzleBottomSheet(
+        onDismiss = { showPuzzleBottomSheet = false },
+        newPuzzle = newPuzzle,
+        onEvent = puzzleViewModel::onEvent
+    )
+
+    L15StateHandler(state = uiState, onStart = {}, onLoading = {
+        PLLoadingDialog()
+    }, onError = { error ->
+        PLAlertDialog(
+            onDismiss = { puzzleViewModel.onEvent(PLBoyPuzzleEvent.ClearUiState) },
+            message = error.message
+        )
+    }, onSuccess = {
+        puzzleViewModel.onEvent(PLBoyPuzzleEvent.ClearUiState)
+    })
 }
 
 @Preview(showBackground = true)

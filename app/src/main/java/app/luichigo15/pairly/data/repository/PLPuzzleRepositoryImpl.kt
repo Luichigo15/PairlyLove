@@ -11,9 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
 import javax.inject.Inject
 
 class PLPuzzleRepositoryImpl @Inject constructor(
@@ -23,12 +22,11 @@ class PLPuzzleRepositoryImpl @Inject constructor(
     private val TAG = PLPuzzleRepositoryImpl::class.java.simpleName
 
     override suspend fun uploadImage(
-        file: File,
+        file: RequestBody,
         fileName: String
     ): L15Result<Boolean, PLErrorCodes> = withContext(Dispatchers.IO) {
         try {
-            val requestFile = file.asRequestBody("image/*".toMediaType())
-            val filePart = MultipartBody.Part.createFormData("file", fileName, requestFile)
+            val filePart = MultipartBody.Part.createFormData("file", fileName, file)
             val presetPart =
                 PLEnvironment.getPuzzlePreset().toRequestBody("text/plain".toMediaType())
             val fileNamePart = fileName.plus("_${System.currentTimeMillis()}")

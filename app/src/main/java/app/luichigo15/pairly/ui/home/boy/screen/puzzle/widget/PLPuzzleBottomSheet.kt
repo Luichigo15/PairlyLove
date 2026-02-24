@@ -1,7 +1,12 @@
 package app.luichigo15.pairly.ui.home.boy.screen.puzzle.widget
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -15,19 +20,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.luichigo15.pairly.R
 import app.luichigo15.pairly.ui.home.boy.common.PLBoyCommonTextField
+import app.luichigo15.pairly.ui.home.boy.screen.puzzle.model.PLBoyPuzzleEvent
+import app.luichigo15.pairly.ui.home.boy.screen.puzzle.model.PLUploadPuzzle
 import app.luichigo15.pairly.ui.theme.PLTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PLPuzzleBottomSheet(
+    newPuzzle: PLUploadPuzzle,
     onDismiss: () -> Unit,
+    onEvent: (PLBoyPuzzleEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        uri?.let { onEvent(PLBoyPuzzleEvent.UriChanged(it)) }
+    }
+
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(
             modifier = modifier
@@ -41,16 +58,36 @@ fun PLPuzzleBottomSheet(
                 stringResource(R.string.pl_puzzles),
                 style = MaterialTheme.typography.headlineLarge
             )
-            FilledTonalButton(onClick = {}, modifier = Modifier.align(Alignment.Start)) {
-                Text(stringResource(R.string.pl_select_image))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                FilledTonalButton(onClick = {
+                    launcher.launch(
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    )
+                }) {
+                    Text(stringResource(R.string.pl_select_image))
+                }
+                newPuzzle.uri?.let {
+                    Text(newPuzzle.getFileName(context), style = MaterialTheme.typography.bodySmall)
+                }
             }
             PLBoyCommonTextField(
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = {},
+                onValueChange = { onEvent(PLBoyPuzzleEvent.NameChanged(it)) },
                 label = R.string.pl_puzzle_name,
                 icon = Icons.Outlined.Extension
             )
-            Button(onClick = {}, modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+                    onEvent(PLBoyPuzzleEvent.Submit(context))
+                    onDismiss()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = newPuzzle.checkValid()
+            ) {
                 Text(stringResource(R.string.pl_upload))
             }
         }
@@ -61,6 +98,6 @@ fun PLPuzzleBottomSheet(
 @Composable
 private fun PLPuzzleBottomSheetPreview() {
     PLTheme(darkTheme = true) {
-        PLPuzzleBottomSheet(onDismiss = {})
+        PLPuzzleBottomSheet(PLUploadPuzzle(), onDismiss = {}, {})
     }
 }
