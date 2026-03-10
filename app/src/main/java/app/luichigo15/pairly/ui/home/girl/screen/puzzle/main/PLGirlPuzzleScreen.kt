@@ -1,4 +1,4 @@
-package app.luichigo15.pairly.ui.home.girl.screen.puzzle
+package app.luichigo15.pairly.ui.home.girl.screen.puzzle.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
