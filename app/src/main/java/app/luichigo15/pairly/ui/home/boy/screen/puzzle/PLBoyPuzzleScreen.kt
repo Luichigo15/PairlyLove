@@ -24,7 +24,7 @@ import app.luichigo15.pairly.ui.common.PLEmptyScreen
 import app.luichigo15.pairly.ui.common.PLLoadingDialog
 import app.luichigo15.pairly.ui.home.boy.screen.puzzle.model.PLBoyPuzzleEvent
 import app.luichigo15.pairly.ui.home.boy.screen.puzzle.widget.PLPuzzleBottomSheet
-import app.luichigo15.pairly.ui.home.boy.screen.puzzle.widget.PlPuzzleGrid
+import app.luichigo15.pairly.ui.home.common.puzzle.PlPuzzleGrid
 import app.luichigo15.pairly.ui.home.common.PLTopBar
 import app.luichigo15.pairly.ui.theme.PLTheme
 
@@ -44,7 +44,7 @@ fun PLBoyPuzzleScreen(
             PLTopBar(title = R.string.pl_puzzles, onBackClick = onBack)
             if (puzzles.isNotEmpty()) PlPuzzleGrid(puzzles = puzzles, onDelete = {
                 puzzleViewModel.onEvent(PLBoyPuzzleEvent.Delete(it))
-            })
+            }, isBoySide = true)
             else PLEmptyScreen(message = R.string.pl_no_images_added, title = R.string.pl_puzzles)
         }
         FloatingActionButton(

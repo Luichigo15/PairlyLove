@@ -1,4 +1,4 @@
-package app.luichigo15.pairly.ui.home.boy.screen.puzzle.widget
+package app.luichigo15.pairly.ui.home.common.puzzle
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,8 +32,9 @@ import coil.compose.AsyncImage
 @Composable
 fun PlPuzzleGrid(
     puzzles: List<PLPuzzle>,
-    onDelete: (id: String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isBoySide: Boolean = false,
+    onDelete: (id: String) -> Unit = {},
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -42,7 +43,7 @@ fun PlPuzzleGrid(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(items = puzzles, key = { it.id }) { puzzle ->
-            PLPuzzleItem(puzzle = puzzle, onDelete = onDelete)
+            PLPuzzleItem(puzzle = puzzle, onDelete = onDelete, isBoySide = isBoySide)
         }
     }
 }
@@ -51,7 +52,8 @@ fun PlPuzzleGrid(
 private fun PLPuzzleItem(
     puzzle: PLPuzzle,
     onDelete: (id: String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isBoySide: Boolean = false
 ) {
     val gradientStops = arrayOf(
         0f to Color.Transparent,
@@ -75,7 +77,7 @@ private fun PLPuzzleItem(
                     .fillMaxSize()
                     .background(brush = Brush.verticalGradient(colorStops = gradientStops))
             )
-            OutlinedIconButton(
+            if (isBoySide) OutlinedIconButton(
                 onClick = { onDelete(puzzle.id) },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -99,6 +101,6 @@ private fun PLPuzzleItem(
 @Composable
 private fun PlPuzzleGridPreview() {
     PLTheme(darkTheme = true) {
-        PlPuzzleGrid(listOf(), {})
+        PlPuzzleGrid(listOf(), onDelete = {}, isBoySide = true)
     }
 }

@@ -50,7 +50,7 @@ class PLSplashActivity : ComponentActivity() {
     private fun chooseActivity(role: String) {
         val activity = when (role) {
             PLRoleConst.BOY_ROLE -> PLBoyHomeActivity::class.java
-            PLRoleConst.GIRL_ROLE -> PLBoyHomeActivity::class.java
+            PLRoleConst.GIRL_ROLE -> PLGirlHomeActivity::class.java
             else -> PLRoleActivity::class.java
         }
         startActivity(Intent(this, activity))

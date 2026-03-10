@@ -15,6 +15,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import app.luichigo15.pairly.ui.home.common.home.PLCommonHome
 import app.luichigo15.pairly.ui.home.girl.screen.gift.PLGirlGiftScreen
+import app.luichigo15.pairly.ui.home.girl.screen.puzzle.PLGirlPuzzleScreen
 import app.luichigo15.pairly.ui.home.navigation.PLRoute
 
 @Composable
@@ -41,6 +42,10 @@ fun PLGirlHomeScreen(modifier: Modifier = Modifier){
 
                 PLRoute.Gift -> NavEntry(key){
                     PLGirlGiftScreen(onBack = onBack)
+                }
+
+                PLRoute.Puzzle -> NavEntry(key){
+                    PLGirlPuzzleScreen(onBack = onBack)
                 }
 
                 else -> NavEntry(key) {
