@@ -11,10 +11,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -29,13 +26,13 @@ class PLSelectedPuzzleViewModel @AssistedInject constructor(
     fun onEvent(event: PLGirlPuzzleEvent) {
         when (event) {
             is PLGirlPuzzleEvent.PiecePlaced -> placePiece(event.piece)
-            is PLGirlPuzzleEvent.GeneratePieces -> generatePieces(event.context)
+            is PLGirlPuzzleEvent.GeneratePieces -> generatePieces(event.context, event.maxWidth, event.maxHeight)
         }
     }
 
-    private fun generatePieces(context: Context) {
+    private fun generatePieces(context: Context, maxWidth:Int, maxHeight:Int) {
         viewModelScope.launch {
-            val puzzle = PLPuzzleUtils.generatePuzzle(context, imageUrl)
+            val puzzle = PLPuzzleUtils.generatePuzzle(context, imageUrl, maxWidth, maxHeight)
             _pieces.update {
                 puzzle
             }

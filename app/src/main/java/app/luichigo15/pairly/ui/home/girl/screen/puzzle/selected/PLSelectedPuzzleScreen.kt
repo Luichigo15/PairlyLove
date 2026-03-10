@@ -9,6 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.luichigo15.pairly.R
@@ -23,15 +25,24 @@ fun PLSelectedPuzzleScreen(
     imageUrl: String,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
-    selectedPuzzleViewModel: PLSelectedPuzzleViewModel = hiltViewModel<PLSelectedPuzzleViewModel, PLSelectedPuzzleViewModel.PLSelectedPuzzleViewModelFactory> {
+    selectedPuzzleViewModel: PLSelectedPuzzleViewModel = hiltViewModel<PLSelectedPuzzleViewModel, PLSelectedPuzzleViewModel.PLSelectedPuzzleViewModelFactory>(
+        key = imageUrl
+    ) {
         it.create(imageUrl)
     }
 ) {
     val context = LocalContext.current
     val pieces by selectedPuzzleViewModel.pieces.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        selectedPuzzleViewModel.onEvent(PLGirlPuzzleEvent.GeneratePieces(context))
+    val configuration = LocalWindowInfo.current.containerDpSize
+    val screenWidth = configuration.width
+    val screenHeight = configuration.height
+    val density = LocalDensity.current
+    val widthPx = with(density) { screenWidth.toPx().times(0.85).toInt() }
+    val heightPx = with(density) { screenHeight.toPx().times(0.85).toInt() }
+
+    LaunchedEffect(imageUrl) {
+        selectedPuzzleViewModel.onEvent(PLGirlPuzzleEvent.GeneratePieces(context, widthPx, heightPx))
     }
 
     Column(modifier = modifier.fillMaxSize()) {

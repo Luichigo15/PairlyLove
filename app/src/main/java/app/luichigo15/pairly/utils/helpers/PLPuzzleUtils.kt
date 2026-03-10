@@ -10,16 +10,21 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import kotlin.random.Random
+import androidx.core.graphics.scale
 
 const val DEFAULT_COLS_ROWS = 4
 object PLPuzzleUtils {
 
     suspend fun generatePuzzle(
-        context: Context, imageUrl: String, rows: Int = DEFAULT_COLS_ROWS,
+        context: Context, imageUrl: String,
+        maxWidth: Int,
+        maxHeight: Int,
+        rows: Int = DEFAULT_COLS_ROWS,
         cols: Int = DEFAULT_COLS_ROWS
     ): List<PLPuzzlePiece> {
         val bitmap = loadBitmap(context, imageUrl)
-        val pieces = splitBitmap(bitmap, rows, cols)
+        val resizedBitmap = resizeBitmapToFit(bitmap, maxWidth, maxHeight)
+        val pieces = splitBitmap(resizedBitmap, rows, cols)
         return createPuzzlePieces(pieces, rows, cols)
     }
 
@@ -32,6 +37,23 @@ object PLPuzzleUtils {
 
         val result = (loader.execute(request) as SuccessResult)
         return (result.drawable as BitmapDrawable).bitmap
+    }
+
+    private fun resizeBitmapToFit(
+        bitmap: Bitmap,
+        maxWidth: Int,
+        maxHeight: Int
+    ): Bitmap {
+
+        val ratio = minOf(
+            maxWidth.toFloat() / bitmap.width,
+            maxHeight.toFloat() / bitmap.height
+        )
+
+        val width = (bitmap.width * ratio).toInt()
+        val height = (bitmap.height * ratio).toInt()
+
+        return bitmap.scale(width, height)
     }
 
     private fun splitBitmap(

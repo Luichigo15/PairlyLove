@@ -2,7 +2,7 @@ package app.luichigo15.pairly.ui.home.boy.screen.puzzle.widget
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,24 +26,26 @@ fun PLPuzzleBoard(
     val pieceWidth = pieces.first().width
     val pieceHeight = pieces.first().height
 
-    val boardWidth = with(density) { (pieceWidth * cols).toDp() }
-    val boardHeight = with(density) { (pieceHeight * rows).toDp() }
+    val boardWidthPx = pieceWidth * cols
+    val boardHeightPx = pieceHeight * rows
+
     Box(
-        modifier = Modifier.size(boardWidth, boardHeight)
+        modifier = Modifier.requiredSize(
+            with(density) { boardWidthPx.toDp() },
+            with(density) { boardHeightPx.toDp() }
+        )
     ) {
         Canvas(modifier = Modifier.matchParentSize()) {
-            val cellWidth = size.width / cols
-            val cellHeight = size.height / rows
 
             for (row in 0 until rows) {
                 for (col in 0 until cols) {
                     drawRect(
                         color = boardColor,
                         topLeft = Offset(
-                            col * cellWidth,
-                            row * cellHeight
+                            col * pieceWidth,
+                            row * pieceHeight
                         ),
-                        size = Size(cellWidth, cellHeight),
+                        size = Size(pieceWidth, pieceHeight),
                         style = Stroke(width = 3f)
                     )
                 }

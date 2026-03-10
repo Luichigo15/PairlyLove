@@ -15,6 +15,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import app.luichigo15.pairly.ui.home.common.home.PLCommonHome
 import app.luichigo15.pairly.ui.home.girl.screen.gift.PLGirlGiftScreen
+import app.luichigo15.pairly.ui.home.girl.screen.puzzle.main.PLGirlPuzzleScreen
 import app.luichigo15.pairly.ui.home.girl.screen.puzzle.selected.PLSelectedPuzzleScreen
 import app.luichigo15.pairly.ui.home.navigation.PLRoute
 
@@ -45,7 +46,13 @@ fun PLGirlHomeScreen(modifier: Modifier = Modifier){
                 }
 
                 PLRoute.Puzzle -> NavEntry(key){
-                    PLSelectedPuzzleScreen(imageUrl = "https://res.cloudinary.com/da9rkovep/image/upload/v1771958822/Flores_Test_1771958821795.jpg", onBack)
+                    PLGirlPuzzleScreen(onBack = onBack, onNavigate = {
+                        backStack.add(PLRoute.SelectedPuzzle(it))
+                    })
+                }
+
+                is PLRoute.SelectedPuzzle -> NavEntry(key) {
+                    PLSelectedPuzzleScreen(imageUrl = key.imageUrl, onBack = onBack)
                 }
 
                 else -> NavEntry(key) {

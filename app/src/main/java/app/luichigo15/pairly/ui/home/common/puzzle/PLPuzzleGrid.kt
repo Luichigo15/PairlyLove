@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
@@ -35,6 +35,7 @@ fun PlPuzzleGrid(
     modifier: Modifier = Modifier,
     isBoySide: Boolean = false,
     onDelete: (id: String) -> Unit = {},
+    onPuzzleClick: (String) -> Unit = {},
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -43,7 +44,11 @@ fun PlPuzzleGrid(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(items = puzzles, key = { it.id }) { puzzle ->
-            PLPuzzleItem(puzzle = puzzle, onDelete = onDelete, isBoySide = isBoySide)
+            PLPuzzleItem(
+                puzzle = puzzle,
+                onDelete = onDelete,
+                isBoySide = isBoySide,
+                onPuzzleClick = onPuzzleClick)
         }
     }
 }
@@ -52,6 +57,7 @@ fun PlPuzzleGrid(
 private fun PLPuzzleItem(
     puzzle: PLPuzzle,
     onDelete: (id: String) -> Unit,
+    onPuzzleClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     isBoySide: Boolean = false
 ) {
@@ -60,7 +66,8 @@ private fun PLPuzzleItem(
         1f to Color.Black.copy(alpha = 0.65f)
     )
 
-    Card(
+    ElevatedCard(
+        onClick = { onPuzzleClick(puzzle.imageUrl) },
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(1f)

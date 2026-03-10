@@ -6,4 +6,5 @@ sealed class PLRoute {
     object Question : PLRoute()
     object Puzzle : PLRoute()
     object Calendar : PLRoute()
+    data class SelectedPuzzle(val imageUrl: String) : PLRoute()
 }
