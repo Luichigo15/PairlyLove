@@ -29,7 +29,10 @@ class PLBoyGiftViewModel @Inject constructor(
         when(event){
             is PLBoyGiftEvent.DateChanged -> _giftData.update { it.copy(expiresOn = event.date) }
             is PLBoyGiftEvent.NameChanged -> _giftData.update { it.copy(name = event.name) }
-            PLBoyGiftEvent.ResetState -> _uiState.update { L15Result.Start }
+            PLBoyGiftEvent.ResetState -> {
+                _giftData.update { PLGift() }
+                _uiState.update { L15Result.Start }
+            }
             PLBoyGiftEvent.Submit -> createGift()
         }
     }
