@@ -12,4 +12,6 @@ object PLPrefsConst {
     val ROLE_PREF = stringPreferencesKey(ROLE_KEY)
     const val SHOW_NOTIFICATIONS_KEY = "show_notifications_key"
     val SHOW_NOTIFICATIONS_PREF = booleanPreferencesKey(SHOW_NOTIFICATIONS_KEY)
+    const val SHOW_GESTURE_INFO_KEY = "show_gesture_info_key"
+    val SHOW_GESTURE_INFO_PREF = booleanPreferencesKey(SHOW_GESTURE_INFO_KEY)
 }

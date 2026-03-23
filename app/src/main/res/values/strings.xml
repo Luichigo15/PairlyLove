@@ -47,4 +47,5 @@
 
 <!--  Gestures  -->
     <string name="pl_unknown_error">An unknown error has occurred</string>
+    <string name="pl_gesture_info">Try to do some gestures to see the results. There are 8 different gestures!</string>
 </resources>

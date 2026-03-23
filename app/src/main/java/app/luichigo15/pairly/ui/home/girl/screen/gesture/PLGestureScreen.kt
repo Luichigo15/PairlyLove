@@ -37,6 +37,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.luichigo15.common.ui.common.L15StateHandler
 import app.luichigo15.pairly.R
+import app.luichigo15.pairly.ui.common.PLAlertDialog
 import app.luichigo15.pairly.ui.home.common.PLTopBar
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -57,6 +58,7 @@ fun PLGestureScreen(
     val surfaceRequest by surfaceRequests.collectAsState()
     val uiState by gestureViewModel.uiState.collectAsStateWithLifecycle()
     var cameraProvider by remember { mutableStateOf<ProcessCameraProvider?>(null) }
+    val showGestureInfo by gestureViewModel.showGestureInfo.collectAsStateWithLifecycle()
 
     var gestureDetected by remember { mutableStateOf("") }
     val lottie by rememberLottieComposition(
@@ -113,7 +115,11 @@ fun PLGestureScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(10.dp))
-                        .border(1.dp, MaterialTheme.colorScheme.onSurface)
+                        .border(
+                            1.dp,
+                            MaterialTheme.colorScheme.onSurface,
+                            RoundedCornerShape(10.dp)
+                        )
                 )
             }
             L15StateHandler(
@@ -136,6 +142,11 @@ fun PLGestureScreen(
             )
         }
     }
+
+    if (showGestureInfo) PLAlertDialog(
+        onDismiss = { gestureViewModel.setGestureInfo() },
+        message = R.string.pl_gesture_info
+    )
 }
 
 private fun getLottieByGesture(name: String): Int {

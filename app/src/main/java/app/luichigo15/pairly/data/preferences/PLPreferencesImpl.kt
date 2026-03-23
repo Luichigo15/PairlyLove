@@ -19,6 +19,8 @@ class PLPreferencesImpl(context: Context) : PLPreferences {
         get() = dataStore.data.map { it[PLPrefsConst.ROLE_PREF] ?: "" }
     override val observeShowNotifications: Flow<Boolean>
         get() = dataStore.data.map { it[PLPrefsConst.SHOW_NOTIFICATIONS_PREF] ?: false }
+    override val observeShowGestureInfo: Flow<Boolean>
+        get() = dataStore.data.map { it[PLPrefsConst.SHOW_GESTURE_INFO_PREF] ?: true }
 
     override suspend fun setPairCode(pairCode: String) {
         dataStore.edit { it[PLPrefsConst.PAIR_CODE_PREF] = pairCode }
@@ -30,5 +32,9 @@ class PLPreferencesImpl(context: Context) : PLPreferences {
 
     override suspend fun setShowNotifications(showNotifications: Boolean) {
         dataStore.edit { it[PLPrefsConst.SHOW_NOTIFICATIONS_PREF] = showNotifications }
+    }
+
+    override suspend fun setShowGestureInfo(showGestureInfo: Boolean) {
+        dataStore.edit { it[PLPrefsConst.SHOW_GESTURE_INFO_PREF] = showGestureInfo }
     }
 }
