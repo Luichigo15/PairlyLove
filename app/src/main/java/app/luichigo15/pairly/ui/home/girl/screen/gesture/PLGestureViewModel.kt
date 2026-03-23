@@ -28,7 +28,10 @@ class PLGestureViewModel @Inject constructor(
             _uiState.update { L15Result.Error(Unit) }
         },
         onResults = { gesture ->
-            if (gesture.isEmpty()) return@PLGestureRecognizerHelper
+            if (gesture.isEmpty()){
+                _uiState.update { L15Result.Start }
+                return@PLGestureRecognizerHelper
+            }
 
             _uiState.update { L15Result.Success(gesture.first()) }
         }
