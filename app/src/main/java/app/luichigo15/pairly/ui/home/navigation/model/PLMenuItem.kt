@@ -15,9 +15,9 @@ data class PLMenuItem(
 
 val homeMenuItems = listOf(
     PLMenuItem(
-        route = PLRoute.Calendar,
-        icon = R.drawable.pl_ic_calendar,
-        title = R.string.pl_calendar
+        route = PLRoute.Gesture,
+        icon = R.drawable.pl_ic_gestures,
+        title = R.string.pl_gestures
     ),
     PLMenuItem(
         route = PLRoute.Gift,

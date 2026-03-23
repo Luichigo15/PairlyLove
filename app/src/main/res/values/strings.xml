@@ -17,7 +17,7 @@
     <string name="pl_error_creating_user">Error creating user</string>
 
 <!--  Home  -->
-    <string name="pl_calendar">Calendar</string>
+    <string name="pl_gestures">Gestures</string>
     <string name="pl_gifts">Gifts</string>
     <string name="pl_questions">Questions</string>
     <string name="pl_puzzles">Puzzles</string>
