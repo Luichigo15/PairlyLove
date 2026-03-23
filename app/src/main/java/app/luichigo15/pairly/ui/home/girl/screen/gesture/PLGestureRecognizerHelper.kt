@@ -5,25 +5,24 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.SystemClock
 import androidx.camera.core.ImageProxy
+import androidx.core.graphics.createBitmap
+import app.luichigo15.pairly.R
 import com.google.mediapipe.framework.image.BitmapImageBuilder
-import com.google.mediapipe.framework.image.MPImage
 import com.google.mediapipe.tasks.core.BaseOptions
 import com.google.mediapipe.tasks.core.Delegate
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import com.google.mediapipe.tasks.vision.gesturerecognizer.GestureRecognizer
-import com.google.mediapipe.tasks.vision.gesturerecognizer.GestureRecognizerResult
-import androidx.core.graphics.createBitmap
+
+private const val DEFAULT_HAND_DETECTION_CONFIDENCE = 0.5F
+private const val DEFAULT_HAND_TRACKING_CONFIDENCE = 0.5F
+private const val DEFAULT_HAND_PRESENCE_CONFIDENCE = 0.5F
+private const val MP_RECOGNIZER_TASK = "gesture_recognizer.task"
 
 class PLGestureRecognizerHelper(
-    val minHandDetectionConfidence: Float = DEFAULT_HAND_DETECTION_CONFIDENCE,
-    val minHandTrackingConfidence: Float = DEFAULT_HAND_TRACKING_CONFIDENCE,
-    val minHandPresenceConfidence: Float = DEFAULT_HAND_PRESENCE_CONFIDENCE,
-    val currentDelegate: Int = DELEGATE_CPU,
-    val runningMode: RunningMode = RunningMode.LIVE_STREAM,
     val context: Context,
-    val gestureRecognizerListener: GestureRecognizerListener? = null
+    val onError: (String) -> Unit = { _: String -> },
+    val onResults: (List<String>) -> Unit = {}
 ) {
-
     private val gestureRecognizer: GestureRecognizer by lazy { setupGestureRecognizer() }
 
     fun clearGestureRecognizer() {
@@ -33,16 +32,21 @@ class PLGestureRecognizerHelper(
     private fun setupGestureRecognizer(): GestureRecognizer {
         val baseOption = BaseOptions.builder()
             .setModelAssetPath(MP_RECOGNIZER_TASK)
-            .setDelegate(if (currentDelegate == DELEGATE_CPU) Delegate.CPU else Delegate.GPU)
+            .setDelegate(Delegate.CPU)
             .build()
         val options = GestureRecognizer.GestureRecognizerOptions.builder()
             .setBaseOptions(baseOption)
-            .setMinHandDetectionConfidence(minHandDetectionConfidence)
-            .setMinTrackingConfidence(minHandTrackingConfidence)
-            .setMinHandPresenceConfidence(minHandPresenceConfidence)
-            .setRunningMode(runningMode)
-            .setResultListener(this::returnLivestreamResult)
-            .setErrorListener(this::returnLivestreamError)
+            .setMinHandDetectionConfidence(DEFAULT_HAND_DETECTION_CONFIDENCE)
+            .setMinTrackingConfidence(DEFAULT_HAND_TRACKING_CONFIDENCE)
+            .setMinHandPresenceConfidence(DEFAULT_HAND_PRESENCE_CONFIDENCE)
+            .setRunningMode(RunningMode.LIVE_STREAM)
+            .setResultListener { results, _ ->
+                val names = results.gestures().flatten().map { category -> category.categoryName() }
+                onResults(names)
+            }
+            .setErrorListener { error ->
+                onError(error.message ?: context.getString(R.string.pl_unknown_error))
+            }
             .build()
 
         return GestureRecognizer.createFromOptions(context, options)
@@ -74,54 +78,6 @@ class PLGestureRecognizerHelper(
         )
 
         val mpImage = BitmapImageBuilder(rotatedBitmap).build()
-        recognizeAsync(mpImage, frameTime)
-    }
-
-    fun recognizeAsync(mpImage: MPImage, frameTime: Long) {
         gestureRecognizer.recognizeAsync(mpImage, frameTime)
-    }
-
-    private fun returnLivestreamResult(
-        result: GestureRecognizerResult, input: MPImage
-    ) {
-        val finishTimeMs = SystemClock.uptimeMillis()
-        val inferenceTime = finishTimeMs - result.timestampMs()
-
-        gestureRecognizerListener?.onResults(
-            ResultBundle(
-                listOf(result), inferenceTime, input.height, input.width
-            )
-        )
-    }
-
-    private fun returnLivestreamError(error: RuntimeException) {
-        gestureRecognizerListener?.onError(
-            error.message ?: "An unknown error has occurred"
-        )
-    }
-
-    companion object {
-        val TAG = PLGestureRecognizerHelper::class.java.simpleName
-        private const val MP_RECOGNIZER_TASK = "gesture_recognizer.task"
-
-        const val DELEGATE_CPU = 0
-        const val DELEGATE_GPU = 1
-        const val DEFAULT_HAND_DETECTION_CONFIDENCE = 0.5F
-        const val DEFAULT_HAND_TRACKING_CONFIDENCE = 0.5F
-        const val DEFAULT_HAND_PRESENCE_CONFIDENCE = 0.5F
-        const val OTHER_ERROR = 0
-        const val GPU_ERROR = 1
-    }
-
-    data class ResultBundle(
-        val results: List<GestureRecognizerResult>,
-        val inferenceTime: Long,
-        val inputImageHeight: Int,
-        val inputImageWidth: Int,
-    )
-
-    interface GestureRecognizerListener {
-        fun onError(error: String, errorCode: Int = OTHER_ERROR)
-        fun onResults(resultBundle: ResultBundle)
     }
 }

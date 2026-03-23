@@ -44,4 +44,7 @@
     <string name="pl_select_image">Select image</string>
     <string name="pl_upload">Upload</string>
     <string name="pl_puzzle_completed">Puzzle completed successfully!</string>
+
+<!--  Gestures  -->
+    <string name="pl_unknown_error">An unknown error has occurred</string>
 </resources>
