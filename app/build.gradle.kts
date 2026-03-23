@@ -146,6 +146,11 @@ dependencies {
     //Other
     implementation(libs.coil)
     implementation(libs.lottie)
+    implementation(libs.mediaPipe)
+    implementation(libs.camerax.core)
+    implementation(libs.camerax.camera2)
+    implementation(libs.camerax.lifecycle)
+    implementation(libs.camerax.compose)
 
     //Test
     testImplementation(libs.junit)
