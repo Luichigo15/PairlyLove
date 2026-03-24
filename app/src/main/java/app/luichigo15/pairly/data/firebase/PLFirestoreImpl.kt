@@ -12,6 +12,7 @@ import app.luichigo15.pairly.domain.model.PLPuzzle
 import app.luichigo15.pairly.domain.model.PLUser
 import app.luichigo15.pairly.domain.provider.PLUserDataProvider
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

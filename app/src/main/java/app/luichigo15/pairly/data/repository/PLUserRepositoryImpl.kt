@@ -2,6 +2,7 @@ package app.luichigo15.pairly.data.repository
 
 import app.luichigo15.common.utils.L15Result
 import app.luichigo15.pairly.common.PLErrorCodes
+import app.luichigo15.pairly.domain.firebase.PLFirebaseAuth
 import app.luichigo15.pairly.domain.firebase.PLFirestore
 import app.luichigo15.pairly.domain.firebase.PLPushNotifications
 import app.luichigo15.pairly.domain.model.PLUser
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 class PLUserRepositoryImpl @Inject constructor(
     private val firestore: PLFirestore,
+    private val auth: PLFirebaseAuth,
     private val pushNotification: PLPushNotifications
 ) : PLUserRepository {
     private val TAG = PLUserRepositoryImpl::class.java.simpleName
@@ -21,4 +23,6 @@ class PLUserRepositoryImpl @Inject constructor(
             val token = pushNotification.getToken() ?: ""
             firestore.createUser(user.copy(notificationsToken = token))
         }
+
+    override fun signIn() = auth.signIn()
 }

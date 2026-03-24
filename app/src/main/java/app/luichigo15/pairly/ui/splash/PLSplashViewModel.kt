@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.luichigo15.pairly.domain.usecase.preferences.PLPairCodeUseCase
 import app.luichigo15.pairly.domain.usecase.preferences.PLRoleUseCase
+import app.luichigo15.pairly.domain.usecase.user.PLSignInUseCase
 import app.luichigo15.pairly.ui.splash.model.PLSplashState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class PLSplashViewModel @Inject constructor(
     private val roleUseCase: PLRoleUseCase,
-    private val pairCodeUseCase: PLPairCodeUseCase
+    private val pairCodeUseCase: PLPairCodeUseCase,
+    private val signInUseCase: PLSignInUseCase
 ) : ViewModel() {
 
     private val _splashState = MutableStateFlow(PLSplashState())
@@ -31,6 +33,8 @@ class PLSplashViewModel @Inject constructor(
                 _splashState.update { it.copy(pairCode = pairCode) }
             }
         }
+
+        signInUseCase()
     }
 
     fun onAnimationFinished() {

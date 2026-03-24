@@ -6,4 +6,6 @@ import app.luichigo15.pairly.domain.model.PLUser
 
 interface PLUserRepository {
     suspend fun createUser(user: PLUser): L15Result<Boolean, PLErrorCodes>
+
+    fun signIn()
 }
