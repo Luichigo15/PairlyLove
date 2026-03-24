@@ -1,4 +1,4 @@
-package app.luichigo15.pairly.ui.home.girl.screen.question.widget
+package app.luichigo15.pairly.ui.home.common.question.widget
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.gestures.detectDragGestures

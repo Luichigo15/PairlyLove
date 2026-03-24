@@ -21,6 +21,7 @@
     <string name="pl_gifts">Gifts</string>
     <string name="pl_questions">Questions</string>
     <string name="pl_puzzles">Puzzles</string>
+    <string name="pl_code">Code: %1$s</string>
 
 <!--  Gift  -->
     <string name="pl_gift_card_left_side_1">LOVE</string>

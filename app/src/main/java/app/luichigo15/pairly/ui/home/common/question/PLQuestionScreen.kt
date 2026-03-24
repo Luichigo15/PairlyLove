@@ -1,4 +1,4 @@
-package app.luichigo15.pairly.ui.home.girl.screen.question
+package app.luichigo15.pairly.ui.home.common.question
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +21,8 @@ import app.luichigo15.pairly.R
 import app.luichigo15.pairly.ui.common.PLEmptyScreen
 import app.luichigo15.pairly.ui.common.PLLoadingDialog
 import app.luichigo15.pairly.ui.home.common.PLTopBar
-import app.luichigo15.pairly.ui.home.girl.screen.question.model.PLQuestionEvent
-import app.luichigo15.pairly.ui.home.girl.screen.question.widget.PLQuestionCard
+import app.luichigo15.pairly.ui.home.common.question.model.PLQuestionEvent
+import app.luichigo15.pairly.ui.home.common.question.widget.PLQuestionCard
 
 @Composable
 fun PLQuestionScreen(

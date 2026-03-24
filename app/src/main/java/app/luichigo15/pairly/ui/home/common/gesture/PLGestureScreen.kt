@@ -1,4 +1,4 @@
-package app.luichigo15.pairly.ui.home.girl.screen.gesture
+package app.luichigo15.pairly.ui.home.common.gesture
 
 import androidx.camera.compose.CameraXViewfinder
 import androidx.camera.core.CameraSelector

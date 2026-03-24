@@ -20,11 +20,11 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import app.luichigo15.common.ui.utils.L15PermissionRequester
 import app.luichigo15.pairly.ui.home.common.home.PLCommonHome
-import app.luichigo15.pairly.ui.home.girl.screen.gesture.PLGestureScreen
+import app.luichigo15.pairly.ui.home.common.gesture.PLGestureScreen
 import app.luichigo15.pairly.ui.home.girl.screen.gift.PLGirlGiftScreen
 import app.luichigo15.pairly.ui.home.girl.screen.puzzle.main.PLGirlPuzzleScreen
 import app.luichigo15.pairly.ui.home.girl.screen.puzzle.selected.PLSelectedPuzzleScreen
-import app.luichigo15.pairly.ui.home.girl.screen.question.PLQuestionScreen
+import app.luichigo15.pairly.ui.home.common.question.PLQuestionScreen
 import app.luichigo15.pairly.ui.home.navigation.PLRoute
 
 @Composable
@@ -50,7 +50,6 @@ fun PLGirlHomeScreen(modifier: Modifier = Modifier){
             }
         }
     }
-
 
     NavDisplay(
         modifier = modifier

@@ -1,10 +1,10 @@
-package app.luichigo15.pairly.ui.home.girl.screen.question
+package app.luichigo15.pairly.ui.home.common.question
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.luichigo15.common.utils.L15Result
 import app.luichigo15.pairly.domain.usecase.question.PLGenerateQuestionsUseCase
-import app.luichigo15.pairly.ui.home.girl.screen.question.model.PLQuestionEvent
+import app.luichigo15.pairly.ui.home.common.question.model.PLQuestionEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

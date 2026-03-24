@@ -16,12 +16,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,12 +25,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.luichigo15.common.ui.utils.L15PermissionRequester
+import app.luichigo15.pairly.R
 import app.luichigo15.pairly.ui.home.common.home.model.PLHomeEvent
 import app.luichigo15.pairly.ui.home.common.home.widget.PLHomeMenuCard
 import app.luichigo15.pairly.ui.home.navigation.PLRoute
@@ -59,6 +57,7 @@ fun PLCommonHome(
     modifier: Modifier = Modifier,
     homeViewModel: PLHomeViewModel = hiltViewModel()
 ) {
+    val code by homeViewModel.code.collectAsStateWithLifecycle()
     var startAnimation by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -78,20 +77,10 @@ fun PLCommonHome(
         modifier = modifier
             .fillMaxSize(),
     ) {
-        OutlinedIconButton(
-            onClick = { }, border = IconButtonDefaults.outlinedIconButtonBorder(true).copy(
-                brush = Brush.linearGradient(
-                    listOf(
-                        MaterialTheme.colorScheme.onSurface,
-                        MaterialTheme.colorScheme.onSurface
-                    )
-                )
-            ), colors = IconButtonDefaults.outlinedIconButtonColors(
-                contentColor = MaterialTheme.colorScheme.onSurface,
-            ), modifier = modifier
-        ) {
-            Icon(imageVector = Icons.Default.Settings, contentDescription = null)
-        }
+        Text(
+            stringResource(R.string.pl_code, code),
+            style = MaterialTheme.typography.headlineMedium
+        )
         LazyVerticalGrid(
             modifier = Modifier.fillMaxSize(),
             columns = GridCells.Fixed(2),
