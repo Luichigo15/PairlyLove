@@ -8,6 +8,7 @@ import app.luichigo15.pairly.data.api.service.PLPuzzleApi
 import app.luichigo15.pairly.data.database.PLDatabase
 import app.luichigo15.pairly.data.database.dao.PLGiftDao
 import app.luichigo15.pairly.data.firebase.PLFirebaseAiImpl
+import app.luichigo15.pairly.data.firebase.PLFirebaseAuthImpl
 import app.luichigo15.pairly.data.firebase.PLFirestoreImpl
 import app.luichigo15.pairly.data.firebase.PLPushNotificationsImpl
 import app.luichigo15.pairly.data.preferences.PLPreferencesImpl
@@ -17,6 +18,7 @@ import app.luichigo15.pairly.data.repository.PLPuzzleRepositoryImpl
 import app.luichigo15.pairly.data.repository.PLQuestionRepositoryImpl
 import app.luichigo15.pairly.data.repository.PLUserRepositoryImpl
 import app.luichigo15.pairly.domain.firebase.PLFirebaseAi
+import app.luichigo15.pairly.domain.firebase.PLFirebaseAuth
 import app.luichigo15.pairly.domain.firebase.PLFirestore
 import app.luichigo15.pairly.domain.firebase.PLPushNotifications
 import app.luichigo15.pairly.domain.preferences.PLPreferences
@@ -70,6 +72,9 @@ interface PLFirebaseModule {
 
     @Binds
     fun providesAi(ai: PLFirebaseAiImpl): PLFirebaseAi
+
+    @Binds
+    fun providesAuth(auth: PLFirebaseAuthImpl): PLFirebaseAuth
 }
 
 @Module

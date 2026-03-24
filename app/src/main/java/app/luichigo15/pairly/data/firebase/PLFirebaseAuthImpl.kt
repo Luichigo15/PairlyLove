@@ -9,6 +9,6 @@ class PLFirebaseAuthImpl @Inject constructor() : PLFirebaseAuth {
     private val auth by lazy { Firebase.auth }
 
     override fun signIn() {
-        if(auth.currentUser != null) auth.signInAnonymously()
+        if(auth.currentUser == null) auth.signInAnonymously()
     }
 }

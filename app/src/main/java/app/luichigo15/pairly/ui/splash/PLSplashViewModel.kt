@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class PLSplashViewModel @Inject constructor(
     private val roleUseCase: PLRoleUseCase,
     private val pairCodeUseCase: PLPairCodeUseCase,
-    private val signInUseCase: PLSignInUseCase
+    signInUseCase: PLSignInUseCase
 ) : ViewModel() {
 
     private val _splashState = MutableStateFlow(PLSplashState())
