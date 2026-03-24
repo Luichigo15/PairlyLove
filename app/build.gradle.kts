@@ -127,6 +127,7 @@ dependencies {
 
     //Firebase
     implementation(platform(libs.firebase.bom))
+    implementation(libs.fireia)
     implementation(libs.firestore)
 //    implementation(libs.crashlytics)
 //    implementation(libs.analytics)
