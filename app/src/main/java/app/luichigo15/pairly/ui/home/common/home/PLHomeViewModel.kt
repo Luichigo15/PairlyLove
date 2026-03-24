@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PLHomeViewModel @Inject constructor(
     private val showNotificationsUseCase: PLShowNotificationsUseCase,
-    private val codeUseCase: PLPairCodeUseCase
+    codeUseCase: PLPairCodeUseCase
 ) : ViewModel() {
 
     val code = codeUseCase.observePairCode.stateIn(
