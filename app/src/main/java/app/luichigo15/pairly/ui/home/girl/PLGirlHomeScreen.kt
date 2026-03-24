@@ -24,6 +24,7 @@ import app.luichigo15.pairly.ui.home.girl.screen.gesture.PLGestureScreen
 import app.luichigo15.pairly.ui.home.girl.screen.gift.PLGirlGiftScreen
 import app.luichigo15.pairly.ui.home.girl.screen.puzzle.main.PLGirlPuzzleScreen
 import app.luichigo15.pairly.ui.home.girl.screen.puzzle.selected.PLSelectedPuzzleScreen
+import app.luichigo15.pairly.ui.home.girl.screen.question.PLQuestionScreen
 import app.luichigo15.pairly.ui.home.navigation.PLRoute
 
 @Composable
@@ -84,8 +85,8 @@ fun PLGirlHomeScreen(modifier: Modifier = Modifier){
                     PLGestureScreen(onBack = onBack)
                 }
 
-                else -> NavEntry(key) {
-                    PLCommonHome({})
+                PLRoute.Question -> NavEntry(key) {
+                    PLQuestionScreen(onBack = onBack)
                 }
             }
         })
