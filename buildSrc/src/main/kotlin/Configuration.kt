@@ -4,7 +4,7 @@ object Configuration {
     const val versionMajor = 1
     const val versionMinor = 0
     const val versionPatch = 0
-    const val versionClassifier = "alpha01"
+    const val versionClassifier = ""
     const val minSdk = 29
     const val compileSdk = 36
     const val targetSdk = 36
